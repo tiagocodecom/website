@@ -1,6 +1,8 @@
 [package]
-name = "website"
+name = "tiagocode-website"
 version = "0.1.0"
 edition = "2021"
+authors = ["Tiagocode <santiagomm1997@gmail.com"]
 
 [dependencies]
+leptos = { version = "0.6.12", features = ["csr", "nightly"] }
