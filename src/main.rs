@@ -3,13 +3,12 @@
 async fn main() -> std::io::Result<()> {
     use actix_files::Files;
     use actix_web::*;
-    use leptos::*;
+    use leptos::prelude::*;
     use leptos_actix::{generate_route_list, LeptosRoutes};
-    use temp::app::*;
+    use tiagocode_website::app::*;
 
-    let conf = get_configuration(None).await.unwrap();
+    let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
-    // Generate the list of routes in your Leptos App
     let routes = generate_route_list(App);
     println!("listening on http://{}", &addr);
 
@@ -18,15 +17,14 @@ async fn main() -> std::io::Result<()> {
         let site_root = &leptos_options.site_root;
 
         App::new()
-            // serve JS/WASM/CSS from `pkg`
-            .service(Files::new("/pkg", format!("{site_root}/pkg")))
-            // serve other assets from the `assets` directory
-            .service(Files::new("/assets", site_root))
-            // serve the favicon from /favicon.ico
             .service(favicon)
-            .leptos_routes(leptos_options.to_owned(), routes.to_owned(), App)
+            .service(Files::new("/assets", site_root.as_ref()))
+            .service(Files::new("/pkg", format!("{site_root}/pkg")))
+            .leptos_routes(routes.to_owned(), {
+                let leptos_options = leptos_options.clone();
+                move || shell(leptos_options.clone())
+            })
             .app_data(web::Data::new(leptos_options.to_owned()))
-        //.wrap(middleware::Compress::default())
     })
     .bind(&addr)?
     .run()
@@ -36,10 +34,11 @@ async fn main() -> std::io::Result<()> {
 #[cfg(feature = "ssr")]
 #[actix_web::get("favicon.ico")]
 async fn favicon(
-    leptos_options: actix_web::web::Data<leptos::LeptosOptions>,
+    leptos_options: actix_web::web::Data<leptos::prelude::LeptosOptions>,
 ) -> actix_web::Result<actix_files::NamedFile> {
     let leptos_options = leptos_options.into_inner();
     let site_root = &leptos_options.site_root;
+
     Ok(actix_files::NamedFile::open(format!(
         "{site_root}/favicon.ico"
     ))?)
@@ -62,5 +61,5 @@ pub fn main() {
 
     console_error_panic_hook::set_once();
 
-    leptos::mount_to_body(App);
+    leptos::hydrate_body(App);
 }

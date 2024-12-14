@@ -1,6 +1,30 @@
-use leptos::*;
+use leptos::prelude::*;
 use leptos_meta::*;
-use leptos_router::*;
+use leptos_router::components::*;
+use leptos_router::path;
+
+pub fn shell(options: LeptosOptions) -> impl IntoView {
+    view! {
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <meta
+                    name="description"
+                    content="Leptos is a cutting-edge Rust web framework designed for building fast, reliable, web applications."
+                />
+                <link rel="stylesheet" id="leptos" href="/pkg/leptos_website.css"/>
+                <AutoReload options=options.clone()/>
+                <HydrationScripts options islands=true/>
+                <MetaTags/>
+            </head>
+            <body>
+                <App/>
+            </body>
+        </html>
+    }
+}
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -18,9 +42,8 @@ pub fn App() -> impl IntoView {
         // content for this welcome page
         <Router>
             <main>
-                <Routes>
-                    <Route path="" view=HomePage/>
-                    <Route path="/*any" view=NotFound/>
+                <Routes fallback=|| "Not found.">
+                    <Route path=path!("") view=HomePage/>
                 </Routes>
             </main>
         </Router>
@@ -31,7 +54,7 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
-    let (count, set_count) = create_signal(0);
+    let (count, set_count) = signal(0);
     let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! {
