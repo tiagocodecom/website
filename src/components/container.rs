@@ -16,7 +16,7 @@ pub fn Container(
 }
 
 #[component]
-pub fn ContainerTitle(children: Children, #[prop(default = "")] backdrop_text: &'static str) -> impl IntoView {
+pub fn ContainerSubtitle(children: Children, #[prop(default = "")] backdrop_text: &'static str) -> impl IntoView {
     view! {
         <h6 data-backdrop-text=backdrop_text class="font-mono font-medium uppercase text-sm tracking-wider relative pt-4 mb-5 dark:text-white before:content-['//'] before:pr-2 after:content-[attr(data-backdrop-text)] after:absolute after:top-0 after:left-0 after:font-poppins after:font-bold after:uppercase after:text-4xl after:opacity-15">
             {children()}
@@ -25,7 +25,7 @@ pub fn ContainerTitle(children: Children, #[prop(default = "")] backdrop_text: &
 }
 
 #[component]
-pub fn ContainerSubtitle(children: Children) -> impl IntoView {
+pub fn ContainerTitle(children: Children) -> impl IntoView {
     view! {
         <h2 class="text-4xl font-poppins font-semibold mb-2 dark:text-white">
             {children()}
