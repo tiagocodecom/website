@@ -1,0 +1,24 @@
+{
+    "resolved": "https://local-admin.tiagocode.com/portfolio/santiago-marulanda",
+    "isHomePath": false,
+    "entity": {
+        "canonical": "https://local-admin.tiagocode.com/portfolio/santiago-marulanda",
+        "type": "node",
+        "bundle": "portfolio",
+        "id": "2",
+        "uuid": "413b8ba1-2bc4-4fda-8455-0c0dea528ca0"
+    },
+    "label": "Santiago Marulanda",
+    "jsonapi": {
+        "individual": "https://local-admin.tiagocode.com/jsonapi/node/portfolio/413b8ba1-2bc4-4fda-8455-0c0dea528ca0",
+        "resourceName": "node--portfolio",
+        "pathPrefix": "jsonapi",
+        "basePath": "/jsonapi",
+        "entryPoint": "https://local-admin.tiagocode.com/jsonapi"
+    },
+    "meta": {
+        "deprecated": {
+            "jsonapi.pathPrefix": "This property has been deprecated and will be removed in the next version of Decoupled Router. Use basePath instead."
+        }
+    }
+}
