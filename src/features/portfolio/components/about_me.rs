@@ -1,7 +1,6 @@
+use crate::shared::uikit::components::*;
+use crate::shared::uikit::models::{Document, Image};
 use leptos::prelude::*;
-
-use crate::shared::ui::components::*;
-use crate::shared::ui::models::{Document, Image};
 
 #[component]
 pub fn AboutMeSection(
@@ -32,9 +31,7 @@ pub fn AboutMeSection(
                         </div>
                         <div class="dark:text-white py-2">
                             <span class="block text-2xl font-normal mb-1">+</span>
-                            <p class="font-mono font-medium text-sm uppercase tracking-[0.5px]">
-                                Years of Experience
-                            </p>
+                            <p class="font-mono font-medium text-sm uppercase tracking-[0.5px]">Years of Experience</p>
                         </div>
                     </div>
                 </div>

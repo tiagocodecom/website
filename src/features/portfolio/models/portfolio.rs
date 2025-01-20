@@ -2,7 +2,7 @@ use derive_builder::Builder;
 use derive_getters::Getters;
 use serde::{Deserialize, Serialize};
 
-use crate::shared::ui::models::{Document, Image, Link, Timeline};
+use crate::shared::uikit::models::{Document, Image, Link, Timeline};
 
 #[derive(Debug, Serialize, Deserialize, Builder, Clone, Getters)]
 pub struct Portfolio {

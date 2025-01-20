@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 
-use crate::shared::ui::components::*;
-use crate::shared::ui::models::Timeline;
+use crate::shared::uikit::components::*;
+use crate::shared::uikit::models::Timeline;
 
 #[component]
 pub fn ResumeSection(

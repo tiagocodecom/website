@@ -1,7 +1,7 @@
 use crate::features::portfolio::components::*;
 use crate::features::portfolio::models::{Portfolio, Section};
-use crate::shared::ui::components::MissingSection;
-use crate::shared::ui::layouts::BasicLayout;
+use crate::shared::uikit::components::MissingSection;
+use crate::shared::uikit::layouts::BasicLayout;
 use leptos::either::EitherOf5;
 use leptos::prelude::*;
 
@@ -11,15 +11,14 @@ async fn get_page_data() -> Result<Portfolio, ServerFnError> {
     use crate::shared::api::services::{ApiGetService, NodePortfolioService};
     use crate::shared::api::utils::HttpClient;
     use actix_web::web::Data;
+    use leptos_actix::extract;
 
-    let http_client: Data<HttpClient> = leptos_actix::extract().await?;
+    let http_client: Data<HttpClient> = extract().await?;
     let node_portfolio = NodePortfolioService::new(http_client.into_inner())
         .fetch("/portfolio/santiago-marulanda")
         .await?;
 
-    let portfolio = adapt_node_portfolio(node_portfolio).unwrap();
-
-    Ok(portfolio)
+    Ok(adapt_node_portfolio(node_portfolio).unwrap())
 }
 
 #[component]

@@ -2,6 +2,8 @@ use derive_getters::Getters;
 use serde::{Deserialize, Serialize};
 use serde_aux::field_attributes::deserialize_number_from_string;
 
+pub type MenuItems = Vec<MenuItem>;
+
 #[derive(Serialize, Deserialize, Getters, Debug)]
 pub struct MenuItem {
     key: String,
@@ -10,10 +12,11 @@ pub struct MenuItem {
     absolute: String,
     relative: String,
     #[serde(deserialize_with = "deserialize_number_from_string")]
-    weight: u8,
-    uuid: String,
+    weight: isize,
+    uuid: Option<String>,
     enabled: bool,
     expanded: bool,
+    external: bool,
     field_image: Option<FieldMenuImage>,
 }
 
@@ -68,7 +71,10 @@ mod tests {
         assert!(menu_item.field_image().is_none());
         assert_eq!(menu_item.enabled().clone(), true);
         assert_eq!(menu_item.expanded().clone(), false);
-        assert_eq!(menu_item.uuid(), "550e8400-e29b-41d4-a716-446655440000");
+        assert_eq!(
+            *menu_item.uuid(),
+            Some("550e8400-e29b-41d4-a716-446655440000".into())
+        );
     }
 
     #[test]

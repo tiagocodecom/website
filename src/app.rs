@@ -5,7 +5,7 @@ use leptos_router::path;
 use leptos_router::SsrMode;
 
 use crate::features::portfolio::pages::PortfolioPage;
-use crate::shared::ui::pages::NotFoundPage;
+use crate::shared::uikit::pages::NotFoundPage;
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {

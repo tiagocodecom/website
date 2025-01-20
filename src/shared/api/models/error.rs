@@ -1,6 +1,6 @@
 #[derive(thiserror::Error, Debug, PartialEq)]
 pub enum Error {
-    #[error("`{0}")]
+    #[error("{0}")]
     NotFound(String),
 
     #[error("communication failed with code `{0}`, and message `{1}`")]

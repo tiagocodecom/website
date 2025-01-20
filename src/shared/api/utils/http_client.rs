@@ -4,12 +4,6 @@ use reqwest::{Client, Response};
 use reqwest::{Method, Url};
 use std::sync::Arc;
 
-#[derive(Builder, Clone)]
-pub struct ClientConfig {
-    #[builder(default)]
-    base_url: Option<String>,
-}
-
 #[derive(Clone)]
 pub struct HttpClient {
     client: Arc<Client>,
@@ -40,10 +34,13 @@ impl HttpClient {
     /// Returns `Error::RequestFailed` if the request fails or returns an error status code
     /// Returns `Error::Unknown` if the request fails for an unknown reason
     pub async fn request(&self, method: Method, url: &str) -> Result<Response, Error> {
-        let url = self.build_url(url)?;
-        let response = self
-            .client
-            .request(method, url)
+        let mut request = self.client.request(method, self.build_url(url)?);
+
+        if let Some(basic_auth) = &self.config.basic_auth.clone() {
+            request = request.basic_auth(&basic_auth.username, Some(&basic_auth.password));
+        }
+
+        let response = request
             .send()
             .await
             .map_err(|e| Error::Unknown(e.to_string()))?;
@@ -91,6 +88,29 @@ impl Default for HttpClient {
     }
 }
 
+#[derive(Builder, Clone, Debug)]
+pub struct ClientConfig {
+    #[builder(default)]
+    base_url: Option<String>,
+    #[builder(default)]
+    basic_auth: Option<BasicAuth>,
+}
+
+#[derive(Clone, Debug)]
+pub struct BasicAuth {
+    username: String,
+    password: String,
+}
+
+impl From<(&str, &str)> for BasicAuth {
+    fn from(value: (&str, &str)) -> Self {
+        Self {
+            username: value.0.to_string(),
+            password: value.1.to_string(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -101,6 +121,7 @@ mod tests {
         let http_client = HttpClient::default();
 
         assert!(http_client.config.base_url.is_none());
+        assert!(http_client.config.basic_auth.is_none());
     }
 
     #[test]
@@ -152,7 +173,7 @@ mod tests {
     }
 
     #[actix_rt::test]
-    async fn returns_an_error_when_request_fails() {
+    async fn returns_request_failed_error_when_request_fails() {
         let mut server = Server::new_async().await;
         let http_client_mock = setup_http_client_mock(&server.url());
         let request_mock = setup_request_mock(&mut server, "/api/v1/resource", 500).await;
@@ -162,9 +183,44 @@ mod tests {
         assert!(request_mock.matched_async().await);
     }
 
+    #[test]
+    pub fn instances_basic_auth_from_touple_strings() {
+        let username = "test";
+        let password = "123456";
+
+        let basic_auth: BasicAuth = (username, password).into();
+
+        assert_eq!(basic_auth.username, username);
+        assert_eq!(basic_auth.password, password);
+    }
+
+    #[actix_rt::test]
+    async fn ignores_basic_auth_header_when_not_configured() {
+        let mut server = Server::new_async().await;
+        let request_mock = server
+            .mock("GET", "/example")
+            .with_status(200)
+            .with_header("Content-Type", "application/json")
+            .with_body(r#"{"message": "Hello, World!"}"#)
+            .create_async()
+            .await;
+
+        let config = ClientConfigBuilder::default()
+            .base_url(Some(server.url()))
+            .basic_auth(None)
+            .build()
+            .unwrap();
+        let http_client_mock = HttpClient::new(config).unwrap();
+        let response = http_client_mock.get("/example").await;
+
+        assert!(response.is_ok()); // sends request without basic auth
+        assert!(request_mock.matched_async().await); // ensures it works
+    }
+
     pub fn setup_http_client_mock(url: &str) -> HttpClient {
         let client_config = ClientConfigBuilder::default()
             .base_url(Some(url.to_string()))
+            .basic_auth(Some(("test", "123456").into()))
             .build()
             .unwrap();
 
@@ -177,6 +233,7 @@ mod tests {
             .with_status(status)
             .with_header("Content-Type", "application/json")
             .with_body_from_file(&format!("tests/fixtures/basic_request_{status}.json"))
+            .match_header("Authorization", "Basic dGVzdDoxMjM0NTY=")
             .create_async()
             .await
     }

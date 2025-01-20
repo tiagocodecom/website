@@ -3,9 +3,9 @@ use crate::features::portfolio::models::{AboutMeBuilder, PortfolioBuilder, Proje
 use crate::features::portfolio::models::{Portfolio, ProjectsBuilder, ResumeBuilder, Section};
 use crate::shared::api::models::{FieldContent, NodePortfolio};
 use crate::shared::api::models::{FieldDocument, FieldImage, Resource};
-use crate::shared::ui::models::{Document, DocumentBuilder, Image};
-use crate::shared::ui::models::{ImageBuilder, LinkBuilder, Timeline};
-use crate::shared::ui::models::{TimelineBuilder, TimelineItemBuilder};
+use crate::shared::uikit::models::{Document, DocumentBuilder, Image};
+use crate::shared::uikit::models::{ImageBuilder, LinkBuilder, Timeline};
+use crate::shared::uikit::models::{TimelineBuilder, TimelineItemBuilder};
 use voca_rs::strip::strip_tags;
 
 pub fn adapt_node_portfolio(document: Resource<NodePortfolio>) -> Result<Portfolio, String> {

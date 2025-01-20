@@ -21,6 +21,7 @@ async fn main() -> std::io::Result<()> {
 
     let client_config = ClientConfigBuilder::default()
         .base_url(Some("https://local-admin.tiagocode.com".to_string()))
+        .basic_auth(Some(("admin", "Oy^XtQt6iSdXrvYmgJDH4%8#XEpIAHHAKe").into()))
         .build()
         .unwrap();
     let http_client = HttpClient::new(client_config).unwrap();

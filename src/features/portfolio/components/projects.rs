@@ -1,8 +1,8 @@
 use leptos::prelude::*;
 
 use crate::features::portfolio::models::Project;
-use crate::shared::ui::components::*;
-use crate::shared::ui::models::{Image, Link};
+use crate::shared::uikit::components::*;
+use crate::shared::uikit::models::{Image, Link};
 
 #[component]
 pub fn ProjectsSection(
