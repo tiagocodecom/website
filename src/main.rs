@@ -11,20 +11,19 @@ async fn main() -> std::io::Result<()> {
     use leptos::prelude::*;
     use leptos_actix::{generate_route_list, LeptosRoutes};
     use tiagocode_website::app::*;
-    use tiagocode_website::shared::api::utils::{ClientConfigBuilder, HttpClient};
+    use tiagocode_website::cms_content::adapters::output::api::{Config, HttpClient};
 
     let leptos_config = get_configuration(None).unwrap();
     let site_address = leptos_config.leptos_options.site_addr;
     let leptos_routes = generate_route_list(App);
 
-    println!("listening on http://{}", &site_address);
+    let client_config = Config::default()
+        .base_url("https://local-admin.tiagocode.com".into())
+        .basic_auth(("admin", "Oy^XtQt6iSdXrvYmgJDH4%8#XEpIAHHAKe"))
+        .build();
+    let http_client = HttpClient::new(client_config);
 
-    let client_config = ClientConfigBuilder::default()
-        .base_url(Some("https://local-admin.tiagocode.com".to_string()))
-        .basic_auth(Some(("admin", "Oy^XtQt6iSdXrvYmgJDH4%8#XEpIAHHAKe").into()))
-        .build()
-        .unwrap();
-    let http_client = HttpClient::new(client_config).unwrap();
+    println!("listening on http://{}", &site_address);
 
     HttpServer::new(move || {
         let leptos_options = &leptos_config.leptos_options;
@@ -39,8 +38,8 @@ async fn main() -> std::io::Result<()> {
                 let leptos_options = leptos_options.clone();
                 move || shell(leptos_options.clone())
             })
+            .app_data(web::Data::new(http_client.to_owned()))
             .app_data(web::Data::new(leptos_options.to_owned()))
-            .app_data(web::Data::new(http_client.clone()))
     })
     .bind(&site_address)?
     .run()

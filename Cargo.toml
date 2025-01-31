@@ -21,6 +21,7 @@ leptos_actix = { version = "0.7.3", optional = true }
 leptos_router = { version = "0.7.3", features = ["nightly"] }
 log = { version = "0.4.22" }
 reqwest = { version = "0.12.9", features = ["json"] }
+secrecy = { version = "0.10.3" }
 serde = { version = "1.0.216" }
 serde-aux = { version = "4.5.0" }
 serde_json = { version = "1.0.133" }

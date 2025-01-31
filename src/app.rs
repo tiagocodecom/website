@@ -4,8 +4,7 @@ use leptos_router::components::*;
 use leptos_router::path;
 use leptos_router::SsrMode;
 
-use crate::features::portfolio::pages::PortfolioPage;
-use crate::shared::uikit::pages::NotFoundPage;
+use crate::portfolio::pages::PortfolioPage;
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -38,10 +37,19 @@ pub fn App() -> impl IntoView {
     view! {
         <Title text="Welcome to Tiagocode" />
         <Router>
-            <Routes fallback=NotFoundPage>
+            <Routes fallback=ExampleComponent>
                 <Route path=path!("") view=PortfolioPage ssr=SsrMode::Async />
                 <Route path=path!("/portfolio") view=PortfolioPage />
             </Routes>
         </Router>
+    }
+}
+
+#[component]
+pub fn ExampleComponent() -> impl IntoView {
+    view! {
+        <p>
+        "Hello world!"
+        </p>
     }
 }
