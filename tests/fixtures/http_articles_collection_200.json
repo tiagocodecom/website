@@ -1,0 +1,236 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "parsed": true
+  },
+  "data": [
+    {
+      "type": "node--article",
+      "id": "9ec011d4-e645-41b0-877e-36e94b46bc92",
+      "langcode": "en",
+      "status": "1",
+      "title": "What is Lorem Ipsum??",
+      "created": "2024-11-23T10:27:14+00:00",
+      "promoted": "1",
+      "metatag": [
+        {
+          "tag": "meta",
+          "attributes": {
+            "name": "title",
+            "content": "What is Lorem Ipsum?? | Tiagocode"
+          }
+        },
+        {
+          "tag": "meta",
+          "attributes": {
+            "name": "description",
+            "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          }
+        },
+        {
+          "tag": "meta",
+          "attributes": {
+            "name": "robots",
+            "content": "noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate"
+          }
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "rel": "canonical",
+            "href": "https://local-admin.tiagocode.com/article/what-lorem-ipsum"
+          }
+        }
+      ],
+      "path": {
+        "alias": "/article/what-lorem-ipsum",
+        "pid": "1",
+        "langcode": "en"
+      },
+      "body": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "content": [
+        {
+          "type": "paragraph--content_text",
+          "id": "4aa7356f-5871-49a6-b2a5-6a874ae4b903",
+          "meta": {
+            "target_revision_id": "455",
+            "drupal_internal__target_id": "1"
+          }
+        },
+        {
+          "type": "paragraph--content_text",
+          "id": "7e2ae902-d232-4d73-ace6-61b4ca5fc7f3",
+          "meta": {
+            "target_revision_id": "456",
+            "drupal_internal__target_id": "2"
+          }
+        },
+        {
+          "type": "paragraph--content_media",
+          "id": "79bbeea1-47b5-47b0-8fe1-79430c72e5cc",
+          "meta": {
+            "target_revision_id": "457",
+            "drupal_internal__target_id": "3"
+          }
+        },
+        {
+          "type": "paragraph--content_text",
+          "id": "6e853349-891e-466d-a37e-a04724e26fb7",
+          "meta": {
+            "target_revision_id": "458",
+            "drupal_internal__target_id": "4"
+          }
+        },
+        {
+          "type": "paragraph--content_media",
+          "id": "1e9ec50c-44b2-4265-b8d9-e8c95ebfb568",
+          "meta": {
+            "target_revision_id": "459",
+            "drupal_internal__target_id": "5"
+          }
+        }
+      ],
+      "tags": [
+        {
+          "type": "taxonomy_term--tags",
+          "id": "986657ce-699e-4105-bffa-506852a8ebee",
+          "meta": {
+            "drupal_internal__target_id": "1"
+          }
+        }
+      ],
+      "thumbnail": {
+        "type": "media--image",
+        "id": "1465ab29-1db5-4020-871c-94cb9599c66f",
+        "langcode": "en",
+        "name": "splitkb2.png",
+        "meta": {
+          "drupal_internal__target_id": "1"
+        },
+        "media_image": {
+          "type": "file--file",
+          "id": "673e132c-2065-407a-8ced-12d09919c5bc",
+          "uri": {
+            "value": "public://2025-02/splitkb2.png",
+            "url": "/sites/default/files/2025-02/splitkb2.png"
+          },
+          "filemime": "image/png",
+          "filesize": "417056",
+          "image_style_uri": {
+            "max_2600x2600": "https://local-admin.tiagocode.com/sites/default/files/styles/max_2600x2600/public/2025-02/splitkb2.png.webp?itok=DRnw_cOa",
+            "medium": "https://local-admin.tiagocode.com/sites/default/files/styles/medium/public/2025-02/splitkb2.png.webp?itok=e_n1fTy8",
+            "medium_500x500": "https://local-admin.tiagocode.com/sites/default/files/styles/medium_500x500/public/2025-02/splitkb2.png?itok=zRsNffT6",
+            "thumbnail": "https://local-admin.tiagocode.com/sites/default/files/styles/thumbnail/public/2025-02/splitkb2.png.webp?itok=Wu8jkZJU",
+            "thumbnail_664x410": "https://local-admin.tiagocode.com/sites/default/files/styles/thumbnail_664x410/public/2025-02/splitkb2.png?itok=XRNvsOX2"
+          },
+          "meta": {
+            "alt": "Example image",
+            "title": "",
+            "width": "931",
+            "height": "429",
+            "drupal_internal__target_id": "30"
+          }
+        }
+      }
+    },
+    {
+      "type": "node--article",
+      "id": "70dd6afa-5bea-48bf-b220-62972607257c",
+      "langcode": "en",
+      "status": "1",
+      "title": "Que es Lorem Ipsum 2?",
+      "created": "2025-03-15T00:52:12+00:00",
+      "promoted": "1",
+      "metatag": [
+        {
+          "tag": "meta",
+          "attributes": {
+            "name": "title",
+            "content": "Que es Lorem Ipsum 2? | Tiagocode"
+          }
+        },
+        {
+          "tag": "meta",
+          "attributes": {
+            "name": "description",
+            "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          }
+        },
+        {
+          "tag": "meta",
+          "attributes": {
+            "name": "robots",
+            "content": "noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate"
+          }
+        },
+        {
+          "tag": "link",
+          "attributes": {
+            "rel": "canonical",
+            "href": "https://local-admin.tiagocode.com/article/que-es-lorem-ipsum-2"
+          }
+        }
+      ],
+      "path": {
+        "alias": "/article/que-es-lorem-ipsum-2",
+        "pid": "7",
+        "langcode": "en"
+      },
+      "body": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "content": [
+        {
+          "type": "paragraph--content_text",
+          "id": "51e41fe8-7de7-477d-be88-218b491ba504",
+          "meta": {
+            "target_revision_id": "460",
+            "drupal_internal__target_id": "25"
+          }
+        }
+      ],
+      "tags": {
+        "data": []
+      },
+      "thumbnail": {
+        "type": "media--image",
+        "id": "1395283b-644f-4466-a047-5c91ad6885ad",
+        "langcode": "en",
+        "name": "splitkb2.png",
+        "meta": {
+          "drupal_internal__target_id": "5"
+        },
+        "media_image": {
+          "type": "file--file",
+          "id": "1774feec-78b6-48d2-8e52-39d384dfb466",
+          "uri": {
+            "value": "public://2024-12/splitkb2.png",
+            "url": "/sites/default/files/2024-12/splitkb2.png"
+          },
+          "filemime": "image/png",
+          "filesize": "417056",
+          "image_style_uri": {
+            "max_2600x2600": "https://local-admin.tiagocode.com/sites/default/files/styles/max_2600x2600/public/2024-12/splitkb2.png.webp?itok=J164GEA5",
+            "medium": "https://local-admin.tiagocode.com/sites/default/files/styles/medium/public/2024-12/splitkb2.png.webp?itok=Lm1piW3q",
+            "medium_500x500": "https://local-admin.tiagocode.com/sites/default/files/styles/medium_500x500/public/2024-12/splitkb2.png?itok=zs6Ji6j4",
+            "thumbnail": "https://local-admin.tiagocode.com/sites/default/files/styles/thumbnail/public/2024-12/splitkb2.png.webp?itok=Wx19jikk",
+            "thumbnail_664x410": "https://local-admin.tiagocode.com/sites/default/files/styles/thumbnail_664x410/public/2024-12/splitkb2.png?itok=wgd0TvRz"
+          },
+          "meta": {
+            "alt": "Example image",
+            "title": "",
+            "width": "931",
+            "height": "429",
+            "drupal_internal__target_id": "8"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "count": 2
+  },
+  "links": {
+    "self": {
+      "href": "https://local-admin.tiagocode.com/jsonapi/node/article?filter%5Bstatus%5D=1&filter%5Bpromoted%5D=1&include=thumbnail.media_image&jsonapi_include=1&page%5Blimit%5D=2&sort=created%2Ctitle"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+use derive_getters::Getters;
+use serde::{Deserialize, Serialize};
+use serde_aux::field_attributes::deserialize_number_from_string;
+
+use crate::adapters::driven::drupal_jsonapi::entities::{
+    ContentHoverCardParagraph, ContentTimelineParagraph, DocumentMedia, ImageMedia,
+    PortfolioAboutMeParagraph, PortfolioArticlesParagraph, PortfolioProjectsParagraph,
+    PortfolioResumeParagraph,
+};
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(tag = "type")]
+pub enum ContentField {
+    #[serde(rename = "paragraph--content_timeline")]
+    ContentTimelineParagraph(ContentTimelineParagraph),
+    #[serde(rename = "paragraph--content_hover_card")]
+    ContentProjectParagraph(ContentHoverCardParagraph),
+    #[serde(rename = "paragraph--portfolio_about_me")]
+    PortfolioAboutMeParagraph(PortfolioAboutMeParagraph),
+    #[serde(rename = "paragraph--portfolio_resume")]
+    PortfolioResumeParagraph(PortfolioResumeParagraph),
+    #[serde(rename = "paragraph--portfolio_projects")]
+    PortfolioProjectsParagraph(PortfolioProjectsParagraph),
+    #[serde(rename = "paragraph--portfolio_blog")]
+    PortfolioArticlesParagraph(PortfolioArticlesParagraph),
+    #[serde(other)]
+    Unknown,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, Getters)]
+pub struct PathField {
+    alias: String,
+    #[serde(rename = "langcode")]
+    lang_code: String,
+    #[serde(deserialize_with = "deserialize_number_from_string")]
+    pid: u16,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, Getters)]
+pub struct LinkField {
+    uri: String,
+    title: String,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, Getters)]
+pub struct ImageField {
+    id: String,
+    #[serde(rename = "type")]
+    entity_type: String,
+    name: String,
+    langcode: String,
+    media_image: ImageMedia,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, Getters)]
+pub struct DocumentField {
+    id: String,
+    #[serde(rename = "type")]
+    entity_type: String,
+    name: String,
+    langcode: String,
+    media_document: DocumentMedia,
+}
