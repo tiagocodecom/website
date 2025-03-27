@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use leptos_meta::{Meta, Script, Title};
-use leptos_router::hooks::use_params_map;
+use leptos_router::hooks::use_location;
 
 use crate::adapters::driver::leptos_webui::controllers::article_detail_controller;
 use crate::adapters::driver::leptos_webui::views::components::blog::{DynamicContent, Header};
@@ -9,10 +9,10 @@ use crate::adapters::driver::leptos_webui::views::layouts::BasicLayout;
 
 #[component]
 pub fn BlogDetailPage() -> impl IntoView {
-    let params = use_params_map();
+    let route = use_location();
     let page_data = Resource::new(
-        move || params.read().get("slug"),
-        |slug| article_detail_controller(format!("/articles/{}", slug.unwrap())),
+        move || route.pathname.read().to_string(),
+        |slug| article_detail_controller(slug),
     );
 
     view! {

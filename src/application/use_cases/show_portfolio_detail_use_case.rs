@@ -32,7 +32,7 @@ impl ForDisplayingPortfolio for ShowPortfolioDetailUseCase {
     async fn execute(&self) -> Result<Portfolio> {
         let mut portfolio = self
             .portfolio_repository
-            .find_by_slug("/portfolio/santiago-marulanda")
+            .find_by_slug("/en/portfolio/santiago-marulanda")
             .await?;
 
         if portfolio.status().eq(&ModerationStatus::Unpublished) {
