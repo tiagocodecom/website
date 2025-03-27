@@ -1,4 +1,5 @@
 use leptos::prelude::*;
+use leptos_router::hooks::use_params_map;
 
 use crate::adapters::driver::leptos_webui::controllers::articles_list_controller;
 use crate::adapters::driver::leptos_webui::views::components::blog::ListSection;
@@ -7,7 +8,12 @@ use crate::adapters::driver::leptos_webui::views::layouts::BasicLayout;
 
 #[component]
 pub fn ArticlesPage() -> impl IntoView {
-    let page_data = OnceResource::new(articles_list_controller());
+    let params = use_params_map();
+
+    let page_data = Resource::new(
+        move || params.read().get("category"),
+        |category| articles_list_controller(category),
+    );
 
     view! {
         <BasicLayout>

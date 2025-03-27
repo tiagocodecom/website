@@ -4,7 +4,9 @@ use leptos::prelude::*;
 use crate::application::domain::article::{Article, Category};
 
 #[server]
-pub async fn articles_list_controller() -> Result<(Vec<Category>, Vec<Article>), ServerFnError> {
+pub async fn articles_list_controller(
+    category: Option<String>,
+) -> Result<(Vec<Category>, Vec<Article>), ServerFnError> {
     use actix_web::web::Data;
     use leptos::logging::error;
     use leptos_actix::extract;
@@ -24,7 +26,7 @@ pub async fn articles_list_controller() -> Result<(Vec<Category>, Vec<Article>),
     let use_case =
         ShowArticlesListUseCase::new(Box::new(article_repository), Box::new(category_repository));
 
-    let result = use_case.execute().await.map_err(|e| {
+    let result = use_case.execute(category).await.map_err(|e| {
         error!("{}", e.to_string());
         ServerFnError::<AppError>::ServerError(e.to_string())
     })?;

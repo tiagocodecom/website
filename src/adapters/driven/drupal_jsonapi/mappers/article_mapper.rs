@@ -101,6 +101,7 @@ fn text_paragraph_mapper(p: &ContentField) -> ArticleContent {
 fn tag_vocabulary_mapper(tag: TagsVocabulary) -> Category {
     CategoryBuilder::default()
         .id(tag.id().to_string().try_into().unwrap())
+        .slug(tag.path().alias().to_string().try_into().unwrap())
         .title(tag.name().to_string().try_into().unwrap())
         .status(tag.status().clone().into())
         .emoji(tag.emoji().to_string().try_into().unwrap())

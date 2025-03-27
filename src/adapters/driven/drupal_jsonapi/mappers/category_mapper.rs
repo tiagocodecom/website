@@ -1,6 +1,6 @@
 use crate::adapters::driven::drupal_jsonapi::entities::TagsVocabulary;
-use crate::application::domain::article::Category;
-use crate::application::domain::core::Result;
+use crate::application::domain::article::{Category, CategoryBuilder};
+use crate::application::domain::core::{AppError, Result};
 
 /// Trait for converting external data into a `Category` domain entity.
 /// Ensures separation between external data sources and core domain logic.
@@ -34,6 +34,17 @@ impl ExternalCategoryMapper for ExternalTagsVocabularyMapper {
     type Input = TagsVocabulary;
 
     fn adapt(&self, input: Self::Input) -> Result<Category> {
-        todo!()
+        tag_vocabulary_mapper(input)
     }
+}
+
+fn tag_vocabulary_mapper(vocabulary: TagsVocabulary) -> Result<Category> {
+    CategoryBuilder::default()
+        .id(vocabulary.id().to_string().try_into()?)
+        .title(vocabulary.name().to_string().try_into()?)
+        .slug(vocabulary.path().alias().to_string().try_into()?)
+        .emoji(vocabulary.emoji().to_string().try_into()?)
+        .status(vocabulary.status().clone().into())
+        .build()
+        .map_err(|e| AppError::Unexpected(e.to_string()))
 }

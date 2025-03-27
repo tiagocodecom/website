@@ -12,10 +12,18 @@ pub fn ListSection(categories: Vec<Category>, articles: Vec<Article>) -> impl In
                 <Decoration text="My Tech Articles".to_string() />
                 <PrimaryTitle text="Blog".to_string() />
                 <div class="py-6">
-                    <Pill text="Programming".into() emoji="🖥️".into()/>
-                    <Pill text="Embedded".into() emoji="🤖".into() />
-                    <Pill text="Keyboards".into() emoji="⌨️".into()/>
-                    <Pill text="Blockchain".into() emoji="🪙".into() />
+                    {categories
+                        .into_iter()
+                        .map(|c| {
+                            view! {
+                                <Pill
+                                    link=c.slug().to_string()
+                                    text=c.title().to_string()
+                                    emoji=c.emoji().to_string()
+                                />
+                            }
+                        }).collect_view()
+                    }
                 </div>
             </div>
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-6 lg:mt-3">
@@ -53,8 +61,10 @@ pub fn ArticleCard(
             <div class="overflow-hidden relative rounded-lg group  flex-shrink-0">
                 <Img image=thumbnail class="w-full transition ease-custom duration-500 group-hover:scale-105 group-hover:blur-[1.5px]" />
                 <div class="absolute bottom-0 left-0 right-0 rounded-none text-center bg-black/50 px-4 py-3 text-white backdrop-blur-[5px] font-mono font-bold uppercase text-sm tracking-[0.5px]">
-                    <span>{category.title().to_string()}</span>
-                    <span class="ml-2">{category.emoji().to_string()}</span>
+                    <a href=category.slug().to_string() target="_self">
+                        {category.title().to_string()}
+                        <span class="ml-2">{category.emoji().to_string()}</span>
+                    </a>
                 </div>
             </div>
             <div class="md:pl-7 md:mt-0  flex-grow">

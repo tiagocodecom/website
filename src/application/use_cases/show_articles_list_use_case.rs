@@ -30,10 +30,13 @@ impl ShowArticlesListUseCase {
 
 #[async_trait(?Send)]
 impl ForDisplayingArticlesList for ShowArticlesListUseCase {
-    async fn execute(&self) -> Result<(Vec<Category>, Vec<Article>)> {
+    async fn execute(
+        &self,
+        category_name: Option<String>,
+    ) -> Result<(Vec<Category>, Vec<Article>)> {
         let articles = self
             .article_repository
-            .get_list()
+            .get_list(category_name)
             .await?
             .into_iter()
             .filter(|a| a.status().eq(&ModerationStatus::Published))

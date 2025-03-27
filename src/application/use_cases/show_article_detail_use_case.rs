@@ -53,7 +53,7 @@ mod tests {
 
     #[async_trait(?Send)]
     impl ForFetchingArticleData for ArticleRepositoryMock {
-        async fn find_by_slug(&self) -> Result<Article> {
+        async fn find_by_slug(&self, slug: &str) -> Result<Article> {
             Ok(self.fixture.clone())
         }
     }
@@ -64,18 +64,18 @@ mod tests {
         let article_repository = ArticleRepositoryMock::with_fixture(article_fixture.clone());
 
         let use_case = ShowArticleDetailUseCase::new(Box::new(article_repository));
-        let fetched_article = use_case.execute().await.unwrap();
+        let result = use_case
+            .execute(article_fixture.slug().as_str())
+            .await
+            .unwrap();
 
-        assert_eq!(fetched_article.id(), article_fixture.id());
-        assert_eq!(fetched_article.title(), article_fixture.title());
-        assert_eq!(fetched_article.slug(), article_fixture.slug());
-        assert_eq!(fetched_article.summary(), article_fixture.summary());
-        assert_eq!(fetched_article.status(), article_fixture.status());
-        assert_eq!(fetched_article.created_at(), article_fixture.created_at());
-        assert_eq!(
-            fetched_article.sections().len(),
-            article_fixture.sections().len()
-        );
+        assert_eq!(result.id(), article_fixture.id());
+        assert_eq!(result.title(), article_fixture.title());
+        assert_eq!(result.slug(), article_fixture.slug());
+        assert_eq!(result.summary(), article_fixture.summary());
+        assert_eq!(result.status(), article_fixture.status());
+        assert_eq!(result.created_at(), article_fixture.created_at());
+        assert_eq!(result.content().len(), article_fixture.content().len());
     }
 
     #[actix_rt::test]
@@ -84,8 +84,8 @@ mod tests {
         let article_repository = ArticleRepositoryMock::with_fixture(article_fixture.clone());
 
         let use_case = ShowArticleDetailUseCase::new(Box::new(article_repository));
-        let fetched_article = use_case.execute().await;
+        let result = use_case.execute(article_fixture.slug().as_str()).await;
 
-        assert!(matches!(fetched_article, Err(AppError::Unauthorized(_))));
+        assert!(matches!(result, Err(AppError::Unauthorized(_))));
     }
 }

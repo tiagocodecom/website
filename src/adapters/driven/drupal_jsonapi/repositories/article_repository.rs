@@ -49,12 +49,12 @@ impl ArticleRepository {
 #[async_trait(?Send)]
 impl ForFetchingArticlesFeatured for ArticleRepository {
     async fn get_featured(&self) -> Result<Articles> {
-        let external_endpoint =
+        let endpoint =
             &format!("/jsonapi/node/article?{COLLECTION_QUERY}&filter[promoted]=1&page[limit]=2");
 
         let external_articles = self
             .api_client
-            .get_external_data::<NodeArticleCollection>(external_endpoint)
+            .get_external_data::<NodeArticleCollection>(endpoint)
             .await
             .map_err(|e| AppError::External(type_name::<Self>(), e.to_string()))?;
 
@@ -68,13 +68,17 @@ impl ForFetchingArticlesFeatured for ArticleRepository {
 
 #[async_trait(?Send)]
 impl ForFetchingArticlesList for ArticleRepository {
-    async fn get_list(&self) -> Result<Vec<Article>> {
+    async fn get_list(&self, category_name: Option<String>) -> Result<Vec<Article>> {
         let adapter = type_name::<Self>();
-        let endpoint = &format!("/jsonapi/node/article?{COLLECTION_QUERY}&page[limit]=10");
+        let mut endpoint = format!("/jsonapi/node/article?{COLLECTION_QUERY}&page[limit]=10");
+
+        if let Some(category_name) = category_name {
+            endpoint.push_str(&format!("&filter[tags][condition][path]=tags.name&filter[tags][condition][value]={category_name}"));
+        }
 
         let articles = self
             .api_client
-            .get_external_data::<NodeArticleCollection>(endpoint)
+            .get_external_data::<NodeArticleCollection>(endpoint.as_str())
             .await
             .map_err(|e| AppError::External(adapter, e.to_string()))?;
 
@@ -123,7 +127,7 @@ pub mod tests {
         let http_client_mock = http_client_mock(&server.url());
 
         let article = ArticleRepository::new(http_client_mock)
-            .find_by_slug()
+            .find_by_slug("/articles/organizing-data-memory")
             .await
             .unwrap();
 

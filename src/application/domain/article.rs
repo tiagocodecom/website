@@ -24,6 +24,7 @@ pub struct Article {
 #[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
 pub struct Category {
     id: Identifier,
+    slug: Url,
     title: RequiredText,
     emoji: RequiredText,
     status: ModerationStatus,
@@ -55,6 +56,7 @@ pub mod tests {
         assert!(serialized.contains(a.thumbnail().width().to_string().as_str()));
         assert!(serialized.contains(a.thumbnail().height().to_string().as_str()));
         assert!(serialized.contains(a.category().title().as_str()));
+        assert!(serialized.contains(a.category().slug().as_str()));
         assert!(serialized.contains(a.category().emoji().as_str()));
     }
 
@@ -69,7 +71,7 @@ pub mod tests {
         assert_eq!(a.summary(), deserialized.summary());
         assert_eq!(a.title(), deserialized.title());
         assert_eq!(a.status(), deserialized.status());
-        assert_eq!(a.sections().len(), deserialized.sections().len());
+        assert_eq!(a.content().len(), deserialized.content().len());
         assert_eq!(a.thumbnail().url(), deserialized.thumbnail().url());
         assert_eq!(a.thumbnail().alt(), deserialized.thumbnail().alt());
         assert_eq!(a.thumbnail().title(), deserialized.thumbnail().title());
@@ -89,7 +91,7 @@ pub mod tests {
             .created_at("2024-12-15T14:03:56+00:00".try_into().unwrap())
             .category(category_fixture())
             .thumbnail(image_fixture())
-            .sections(vec![])
+            .content(vec![])
             .build()
             .unwrap()
     }
@@ -104,7 +106,7 @@ pub mod tests {
             .created_at("2024-12-15T14:03:56+00:00".try_into().unwrap())
             .category(category_fixture())
             .thumbnail(image_fixture())
-            .sections(vec![])
+            .content(vec![])
             .build()
             .unwrap()
     }
@@ -112,6 +114,7 @@ pub mod tests {
     pub fn category_fixture() -> Category {
         CategoryBuilder::default()
             .id(Identifier::try_from("f5e4d3c2-b1a0-4f9e-8d7c-6b5a4c3d2e1f").unwrap())
+            .slug(Url::try_from("/example").unwrap())
             .title(RequiredText::try_from("Example").unwrap())
             .status(ModerationStatus::Published)
             .emoji(RequiredText::try_from("⌨️").unwrap())

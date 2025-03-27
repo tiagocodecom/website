@@ -15,5 +15,6 @@ pub trait ForDisplayingArticlesList {
     /// # Returns
     /// * `AppError<(Vec<Category>, Vec<Article>)>` - A result wrapping the `Categories` and
     ///   `Articles` if found, or an error if the articles could not be retrieved.
-    async fn execute(&self) -> Result<(Vec<Category>, Vec<Article>)>;
+    async fn execute(&self, category_name: Option<String>)
+        -> Result<(Vec<Category>, Vec<Article>)>;
 }

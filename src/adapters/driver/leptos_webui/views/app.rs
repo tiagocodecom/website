@@ -24,6 +24,7 @@ pub fn App() -> impl IntoView {
                 <Route ssr=SsrMode::Async path=path!("/") view=|| view! { <Redirect path="/en" /> } />
                 <Route ssr=SsrMode::Async path=path!("/en") view=PortfolioPage/>
                 <Route ssr=SsrMode::Async path=path!("/:lang/articles") view=ArticlesPage/>
+                <Route ssr=SsrMode::Async path=path!("/:lang/articles/:category") view=ArticlesPage/>
                 <Route ssr=SsrMode::Async path=path!("/:lang/articles/:category/:slug") view=BlogDetailPage/>
                 <Route ssr=SsrMode::Async path=WildcardSegment("any") view=NotFoundPage/>
             </Routes>

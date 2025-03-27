@@ -1,11 +1,19 @@
 use async_trait::async_trait;
+use std::any::type_name;
 
-use crate::adapters::driven::drupal_jsonapi::entities::TagsVocabulary;
+use crate::adapters::driven::drupal_jsonapi::entities::{TagsVocabulary, VocabularyTagCollection};
 use crate::adapters::driven::drupal_jsonapi::mappers::ExternalCategoryMapper;
 use crate::adapters::driven::drupal_jsonapi::mappers::ExternalTagsVocabularyMapper;
 use crate::adapters::driven::drupal_jsonapi::services::{HttpClientService, JsonApiClientService};
 use crate::application::domain::article::Category;
+use crate::application::domain::core::AppError;
 use crate::application::ports::driven::ForFetchingCategoriesList;
+
+const COLLECTION_QUERY: &str = "\
+    &filter[status]=1\
+    &page[limit]=10\
+    &sort[sort-created][path]=name&sort[sort-created][direction]=asc\
+    &jsonapi_include=1";
 
 /// Repository for fetching and transforming category data from an external API.
 ///
@@ -29,6 +37,19 @@ impl CategoryRepository {
 #[async_trait(?Send)]
 impl ForFetchingCategoriesList for CategoryRepository {
     async fn find_all_categories(&self) -> crate::application::domain::core::Result<Vec<Category>> {
-        Ok(vec![])
+        let adapter = type_name::<Self>();
+        let endpoint = &format!("/jsonapi/taxonomy_term/tags?{COLLECTION_QUERY}");
+
+        let categories = self
+            .api_client
+            .get_external_data::<VocabularyTagCollection>(endpoint)
+            .await
+            .map_err(|e| AppError::External(adapter, e.to_string()))?;
+
+        Ok(self
+            .api_adapter
+            .adapt_multiple(categories.data().clone())?
+            .into_iter()
+            .collect())
     }
 }
