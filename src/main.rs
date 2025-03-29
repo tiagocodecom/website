@@ -4,12 +4,17 @@ async fn main() -> std::io::Result<()> {
     use actix_files::Files;
     use actix_web::middleware::Compress;
     use actix_web::*;
+    use dotenvy::dotenv;
     use leptos::config::get_configuration;
     use leptos::prelude::*;
     use leptos_actix::{generate_route_list, LeptosRoutes};
     use leptos_meta::MetaTags;
+    use std::env;
+
     use website::adapters::driven::drupal_jsonapi::services::{Config, HttpClientService};
     use website::adapters::driver::leptos_webui::views::app::*;
+
+    dotenv().ok();
 
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
@@ -18,10 +23,14 @@ async fn main() -> std::io::Result<()> {
         let routes = generate_route_list(App);
         let leptos_options = &conf.leptos_options;
         let site_root = leptos_options.site_root.clone().to_string();
+        let api_base_url = env::var("JSONAPI_BASE_URL").expect("JSONAPI_BASE_URL is undefined");
+        let api_username = env::var("JSONAPI_USERNAME").expect("JSONAPI_USERNAME is undefined");
+        let api_password =
+            env::var("JSONAPI_PASSWORD").expect("JSONAPI_PASSWORD is undefined");
 
         let client_config = Config::default()
-            .base_url("https://local-admin.tiagocode.com".into())
-            .basic_auth(("Oppressor0130", "196*V4xx8dBHjfB#y$SI@%qB"))
+            .base_url(api_base_url.into())
+            .basic_auth((api_username.as_str(), api_password.as_str()))
             .build();
         let http_client = HttpClientService::new(client_config);
 

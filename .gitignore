@@ -16,3 +16,5 @@ playwright/.cache/
 
 # Sass cache dir
 .sass-cache/
+
+.env
