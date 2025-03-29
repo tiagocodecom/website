@@ -14,7 +14,7 @@ pub fn Pill(
     };
 
     view! {
-        <div class="inline-block px-4 py-2 me-2 rounded-full border border-black/20 border-dashed text-zeus hover:text-black transition ease-linear duration-100">
+        <div class="inline-block px-4 py-2 me-2 rounded-full border border-black/20 border-dashed text-zeus hover:bg-sheengold/70 transition ease-linear duration-100">
             {if link.is_empty() {
                 content.into_any()
             } else {

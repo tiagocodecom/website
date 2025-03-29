@@ -48,7 +48,7 @@ pub fn MenuItem(
                     </a>
                 }.into_any(),
                 None => view! {
-                    <a target=target href=url.to_string() title=title.to_string()>
+                    <a target=target href=url.to_string() title=title.to_string() class="hover:text-asparagus">
                         <span class="h-8">{title.to_string()}</span>
                     </a>
                 }.into_any()
