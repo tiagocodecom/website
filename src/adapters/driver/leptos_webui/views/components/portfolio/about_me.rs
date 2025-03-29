@@ -37,7 +37,7 @@ pub fn AboutMeSection(
                     <PrimaryTitle text=title />
                     <Description text=text />
                     <div class="space-y-3 mb-2">
-                        {skills.into_iter().map(|skill| view! { <Pill text=skill /> }).collect_view()}
+                        {skills.into_iter().map(|skill| view! { <Pill text=skill.to_string() /> }).collect_view()}
                     </div>
                     <div class="space-y-3 mb-2 flex justify-end">
                         <a href=cv_document.url().to_string() class="btn btn-primary" target="_blank">

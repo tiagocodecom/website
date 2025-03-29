@@ -1,16 +1,16 @@
 {
-  "resolved": "https://local-admin.tiagocode.com/articles/organizing-data-memory",
+  "resolved": "https://local-admin.tiagocode.com/en/articles/programming/understanding-linked-lists",
   "isHomePath": false,
   "entity": {
-    "canonical": "https://local-admin.tiagocode.com/articles/organizing-data-memory",
+    "canonical": "https://local-admin.tiagocode.com/en/articles/programming/understanding-linked-lists",
     "type": "node",
     "bundle": "article",
-    "id": "7",
-    "uuid": "26d7df3e-626e-4716-86ce-a94f66efa297"
+    "id": "9",
+    "uuid": "66fa079a-8b9f-4971-9b3c-60f33efa0bd2"
   },
-  "label": "Organizing data in memory",
+  "label": "Understanding Linked Lists",
   "jsonapi": {
-    "individual": "https://local-admin.tiagocode.com/jsonapi/node/article/26d7df3e-626e-4716-86ce-a94f66efa297",
+    "individual": "https://local-admin.tiagocode.com/jsonapi/node/article/66fa079a-8b9f-4971-9b3c-60f33efa0bd2",
     "resourceName": "node--article",
     "pathPrefix": "jsonapi",
     "basePath": "/jsonapi",

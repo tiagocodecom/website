@@ -68,12 +68,12 @@ impl ForFetchingArticlesFeatured for ArticleRepository {
 
 #[async_trait(?Send)]
 impl ForFetchingArticlesList for ArticleRepository {
-    async fn get_list(&self, category_name: Option<String>) -> Result<Vec<Article>> {
+    async fn get_list(&self, category_id: Option<String>) -> Result<Vec<Article>> {
         let adapter = type_name::<Self>();
         let mut endpoint = format!("/jsonapi/node/article?{COLLECTION_QUERY}&page[limit]=10");
 
-        if let Some(category_name) = category_name {
-            endpoint.push_str(&format!("&filter[tags][condition][path]=tags.name&filter[tags][condition][value]={category_name}"));
+        if let Some(category) = category_id {
+            endpoint.push_str(&format!("&filter[tags][condition][path]=tags.name&filter[tags][condition][value]={category}"));
         }
 
         let articles = self
@@ -123,7 +123,7 @@ pub mod tests {
     async fn fetching_details_succeeds_when_api_response_is_valid() {
         let mut server = Server::new_async().await;
         let router_mock = router_mock(&mut server, "/articles/organizing-data-memory", 200).await;
-        let request_mock = collection_request_mock(&mut server, "/jsonapi/node/article", 200).await;
+        let request_mock = resource_request_mock(&mut server, "/jsonapi/node/article", 200).await;
         let http_client_mock = http_client_mock(&server.url());
 
         let article = ArticleRepository::new(http_client_mock)
@@ -171,7 +171,7 @@ pub mod tests {
         let http_client_mock = http_client_mock(&server.url());
 
         let articles = ArticleRepository::new(http_client_mock)
-            .get_list()
+            .get_list(None)
             .await
             .unwrap();
         let first_article = articles.first().unwrap();
@@ -189,7 +189,6 @@ pub mod tests {
     async fn router_mock(server: &mut Server, path: &str, status: usize) -> Mock {
         let path = format!("/router/translate-path?path={path}");
         let body_file = &format!("tests/fixtures/http_article_decoupled_router_{status}.json");
-
         server
             .mock("GET", path.as_str())
             .with_status(status)
@@ -199,9 +198,19 @@ pub mod tests {
             .await
     }
 
-    async fn collection_request_mock(server: &mut Server, path: &str, status: usize) -> Mock {
-        let body_file_path = &format!("tests/fixtures/http_articles_collection_{status}.json");
+    async fn resource_request_mock(server: &mut Server, path: &str, status: usize) -> Mock {
+        let body_file_path = &format!("tests/fixtures/http_article_resource_{status}.json");
+        server
+            .mock("GET", Regex(path.to_string()))
+            .with_status(status)
+            .with_header("content-type", "application/vnd.api+json")
+            .with_body_from_file(body_file_path)
+            .create_async()
+            .await
+    }
 
+    async fn collection_request_mock(server: &mut Server, path: &str, status: usize) -> Mock {
+        let body_file_path = &format!("tests/fixtures/http_article_collection_{status}.json");
         server
             .mock("GET", Regex(path.to_string()))
             .with_status(status)

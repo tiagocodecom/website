@@ -6,12 +6,15 @@ use crate::application::domain::common::Image;
 
 #[component]
 pub fn ListSection(categories: Vec<Category>, articles: Vec<Article>) -> impl IntoView {
+    let are_articles_empty = articles.is_empty().clone();
+
     view! {
         <Container>
             <div>
                 <Decoration text="My Tech Articles".to_string() />
                 <PrimaryTitle text="Blog".to_string() />
                 <div class="py-6">
+                    <Pill link="/en/articles".into() text="All".into() />
                     {categories
                         .into_iter()
                         .map(|c| {
@@ -26,24 +29,33 @@ pub fn ListSection(categories: Vec<Category>, articles: Vec<Article>) -> impl In
                     }
                 </div>
             </div>
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-6 lg:mt-3">
-                {articles
-                    .into_iter()
-                    .map(|a| {
-                        view! {
-                            <ArticleCard
-                                date=a.created_at().to_string_with_format("%b %d, %Y")
-                                title=a.title().to_string()
-                                summary=a.summary().to_string()
-                                slug=a.slug().to_string()
-                                category=a.category().clone()
-                                thumbnail=a.thumbnail().clone()
-                            />
-                        }
-                    }).collect_view()
-                }
-            </div>
-        </Container>
+            <Show
+                when=move || !are_articles_empty
+                fallback=|| view! {
+                    <p class="font-mono font-medium uppercase text-sm text-center tracking-wider relative pt-4 mb-5 text-asparagus">
+                        "No articles available. Check back soon!"
+                    </p>
+                }>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-6 lg:mt-3">
+                    {articles
+                        .clone()
+                        .into_iter()
+                        .map(|a| {
+                            view! {
+                                <ArticleCard
+                                    date=a.created_at().to_string_with_format("%b %d, %Y")
+                                    title=a.title().to_string()
+                                    summary=a.summary().to_string()
+                                    slug=a.slug().to_string()
+                                    category=a.category().clone()
+                                    thumbnail=a.thumbnail().clone()
+                                />
+                            }
+                        }).collect_view()
+                    }
+                </div>
+            </Show>
+    </Container>
     }
 }
 

@@ -41,6 +41,12 @@ pub mod tests {
     }
 
     #[test]
+    #[should_panic]
+    fn creation_fails_when_invalid_article() {
+        invalid_article_fixture();
+    }
+
+    #[test]
     fn serialization_succeeds_when_valid_article() {
         let a = article_fixture();
         let serialized = serde_json::json!(&a).to_string();
@@ -104,6 +110,19 @@ pub mod tests {
             .summary("Lorem Ipsum is simply dummy text".try_into().unwrap())
             .status(ModerationStatus::Unpublished)
             .created_at("2024-12-15T14:03:56+00:00".try_into().unwrap())
+            .category(category_fixture())
+            .thumbnail(image_fixture())
+            .content(vec![])
+            .build()
+            .unwrap()
+    }
+
+    pub fn invalid_article_fixture() -> Article {
+        ArticleBuilder::default()
+            .title("".try_into().unwrap())
+            .summary("".try_into().unwrap())
+            .created_at("".try_into().unwrap())
+            .status(false.into())
             .category(category_fixture())
             .thumbnail(image_fixture())
             .content(vec![])

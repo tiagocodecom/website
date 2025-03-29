@@ -30,13 +30,10 @@ impl ShowArticlesListUseCase {
 
 #[async_trait(?Send)]
 impl ForDisplayingArticlesList for ShowArticlesListUseCase {
-    async fn execute(
-        &self,
-        category_name: Option<String>,
-    ) -> Result<(Vec<Category>, Vec<Article>)> {
+    async fn execute(&self, category_id: Option<String>) -> Result<(Vec<Category>, Vec<Article>)> {
         let articles = self
             .article_repository
-            .get_list(category_name)
+            .get_list(category_id)
             .await?
             .into_iter()
             .filter(|a| a.status().eq(&ModerationStatus::Published))
@@ -79,7 +76,7 @@ mod tests {
 
     #[async_trait(?Send)]
     impl ForFetchingArticlesList for ArticleRepositoryMock {
-        async fn get_list(&self) -> Result<Vec<Article>> {
+        async fn get_list(&self, _category_id: Option<String>) -> Result<Vec<Article>> {
             Ok(self.fixture.clone())
         }
     }
@@ -100,7 +97,7 @@ mod tests {
 
         let use_case =
             ShowArticlesListUseCase::new(Box::new(article_repo_mock), Box::new(category_repo_mock));
-        let (fetched_categories, fetched_articles) = use_case.execute().await.unwrap();
+        let (fetched_categories, fetched_articles) = use_case.execute(None).await.unwrap();
 
         assert_eq!(fetched_articles.len(), articles_fixture.len());
         assert_eq!(fetched_categories.len(), categories_fixture.len());
@@ -115,7 +112,7 @@ mod tests {
 
         let use_case =
             ShowArticlesListUseCase::new(Box::new(article_repo_mock), Box::new(category_repo_mock));
-        let (fetched_categories, fetched_articles) = use_case.execute().await.unwrap();
+        let (fetched_categories, fetched_articles) = use_case.execute(None).await.unwrap();
 
         assert_eq!(fetched_articles.len(), 1);
         assert_eq!(fetched_categories.len(), categories_fixture.len());

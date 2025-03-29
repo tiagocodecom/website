@@ -53,7 +53,7 @@ mod tests {
 
     #[async_trait(?Send)]
     impl ForFetchingArticleData for ArticleRepositoryMock {
-        async fn find_by_slug(&self, slug: &str) -> Result<Article> {
+        async fn find_by_slug(&self, _slug: &str) -> Result<Article> {
             Ok(self.fixture.clone())
         }
     }

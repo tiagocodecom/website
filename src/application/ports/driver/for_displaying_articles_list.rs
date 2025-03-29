@@ -10,11 +10,17 @@ use crate::application::domain::core::Result;
 /// allowing the web UI to obtain articles data for rendering.
 #[async_trait(?Send)]
 pub trait ForDisplayingArticlesList {
-    /// Retrieves a list of articles, and categories.
+    /// Retrieves a list of articles and categories, optionally filtered by category.
+    ///
+    /// # Arguments
+    /// * `category_id` - Optional category identifier to filter articles by category
     ///
     /// # Returns
-    /// * `AppError<(Vec<Category>, Vec<Article>)>` - A result wrapping the `Categories` and
-    ///   `Articles` if found, or an error if the articles could not be retrieved.
-    async fn execute(&self, category_name: Option<String>)
-        -> Result<(Vec<Category>, Vec<Article>)>;
+    /// * `Result<(Vec<Category>, Vec<Article>)>` - A result containing a tuple of:
+    ///   - All available categories
+    ///   - Articles (filtered by the specified category if provided)
+    ///
+    /// # Errors
+    /// Returns an error if the articles or categories could not be retrieved.
+    async fn execute(&self, category_id: Option<String>) -> Result<(Vec<Category>, Vec<Article>)>;
 }
