@@ -34,7 +34,7 @@ pub fn BlogDetailPage() -> impl IntoView {
                             <Script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js" />
 
                             <div class="justify-center space-y-6 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
-                                <div class="lg:w-3/4 pb-12 article-detail section bg-white dark:bg-boxDark  px-6 py-8 md:px-8 md:py-10 lg:p-12 shadow-sectionBoxShadow hover:shadow-sectionBoxShadowHover transition ease-out duration-[160ms]">
+                                <div class="lg:w-3/4 pb-12 article-detail section bg-white px-6 py-8 md:px-8 md:py-10 lg:p-12 shadow-smoke-shadow hover:shadow-smoke-shadowHover transition ease-out duration-[160ms]">
                                     <Header article=article.clone() />
                                     <DynamicContent content=article.content().clone() />
                                 </div>

@@ -56,9 +56,9 @@ pub fn FeaturedArticleCard(
                 </div>
             </div>
             <div class="mt-5 md:pl-7 md:mt-0 flex-grow">
-                <span class="text-mainfont dark:text-white/70">{format!("Posted on {}", published_at)}</span>
+                <span class="text-zeus dark:text-white/70">{format!("Posted on {}", published_at)}</span>
                 <h3 class="font-poppins font-semibold text-2xl mt-2">{title}</h3>
-                <p class="text-mainfont dark:text-white/70">{summary}</p>
+                <p class="text-zeus dark:text-white/70">{summary}</p>
                 <a href=link target="_self"  class="inline-block border border-black border-dashed rounded-full px-6 py-3 mt-3 lg:mt-4 font-mono text-sm hover:bg-black hover:text-white transition ease-out duration-[120ms] dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black">
                     Read More
                 </a>

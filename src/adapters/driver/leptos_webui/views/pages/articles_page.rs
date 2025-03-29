@@ -11,7 +11,7 @@ pub fn ArticlesPage() -> impl IntoView {
 
     view! {
         <BasicLayout>
-            <Suspense fallback=move || { view! { <div class="bg-main"></div> } }>
+            <Suspense fallback=move || { view! { <div class="bg-whitesmoke"></div> } }>
                 {move || {
                     page_data
                     .get_untracked()

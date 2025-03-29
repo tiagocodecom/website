@@ -1,5 +1,6 @@
 use leptos::prelude::*;
 
+use crate::adapters::driver::leptos_webui::views::components::common::Logo;
 use crate::adapters::driver::leptos_webui::views::components::common::Menu;
 use crate::application::domain::layout::MenuTree;
 
@@ -8,12 +9,7 @@ pub fn Navbar(main_menu: MenuTree, social_menu: MenuTree) -> impl IntoView {
     view! {
         <nav>
             <div class="flex flex-wrap items-center justify-between max-w-[1320px] mx-auto py-4 px-5 xl:px-0">
-                <a href="/" target="_self" class="flex items-center space-x-3">
-                    <img src="/assets/images/logo.png" class="h-8" alt="Tiagocode Logo" />
-                    <span class="hidden md:block self-center text-2xl font-semibold whitespace-nowrap uppercase">
-                        Tiagocode
-                    </span>
-                </a>
+                <Logo />
                 <div class="flex items-center">
                     <div class="md:order-2">
                         <Menu
