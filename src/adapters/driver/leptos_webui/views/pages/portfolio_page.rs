@@ -12,7 +12,7 @@ pub fn PortfolioPage() -> impl IntoView {
 
     view! {
         <BasicLayout>
-            <Suspense fallback=move || { view! { <div class="bg-main"></div> } }>
+            <Suspense fallback=move || { view! { <div class="bg-whitesmoke"></div> } }>
                 {move || {
                     page_data
                     .get_untracked()
@@ -25,7 +25,7 @@ pub fn PortfolioPage() -> impl IntoView {
                         view! {
                             <Title text=portfolio.title().to_string() />
                             <div class="justify-center lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
-                                <div class="hidden lg:block z-10 sticky top-2 lg:top-[80px] lg:h-fit lg:w-1/4 bg-black/90 dark:bg-boxDark backdrop-blur-[5px] px-4 py-3 lg:bg-black lg:px-8 lg:py-5 xl:px-10 xl:py-7 lg:backdrop-blur-none">
+                                <div class="lg:w-1/4 hidden lg:block sticky px-4 lg:px-8 xl:px-10 py-3 lg:py-5 xl:py-7 lg:h-fit top-2 lg:top-[80px] bg-teal shadow-smoke-shadow hover:shadow-smoke-shadowHover rounded-lg">
                                     <Sidebar />
                                 </div>
                                 <div class="lg:w-3/4 space-y-6">

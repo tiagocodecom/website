@@ -1,6 +1,7 @@
 use leptos::prelude::*;
 
-use crate::application::domain::article::{Article, Category};
+use crate::adapters::driver::leptos_webui::views::components::common::{Decoration, PrimaryTitle};
+use crate::application::domain::article::Article;
 
 #[component]
 pub fn Header(article: Article) -> impl IntoView {
@@ -16,8 +17,9 @@ pub fn Header(article: Article) -> impl IntoView {
                 <span class="ml-1">{article.created_at().to_string_with_format("%b %d, %Y")}</span>
             </time>
         </div>
-        <h1 class="text-3xl lg:text-4xl text-center font-poppins font-semibold mb-3 my-6 md:my-10">
-            {article.title().to_string()}
-        </h1>
+        <div class="my-6 md:my-10">
+            <Decoration text="Article detail".into() />
+            <PrimaryTitle text={article.title().to_string()} />
+        </div>
     }
 }

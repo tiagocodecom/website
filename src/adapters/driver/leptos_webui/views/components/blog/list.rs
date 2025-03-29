@@ -68,16 +68,16 @@ pub fn ArticleCard(
                 </div>
             </div>
             <div class="md:pl-7 md:mt-0  flex-grow">
-                <span class="text-mainfont dark:text-white/70">{date}</span>
+                <span class="text-zeus dark:text-white/70">{date}</span>
                 <h2 class="font-poppins font-semibold text-lg mt-2">{title}</h2>
-                <p class="text-mainfont dark:text-white/70">{
+                <p class="text-zeus dark:text-white/70">{
                     if summary.chars().count() > 110 {
                         summary.chars().take(110).collect::<String>() + "..."
                     } else {
                         summary
                     }
                 }</p>
-                <a href=slug target="_self" class="inline-block text-white hover:text-mainfont bg-black hover:bg-white hover:border hover:border-black border-dashed rounded-full px-6 py-3 mt-3 lg:mt-4 font-mono text-sm transition ease-out duration-[120ms]">
+                <a href=slug target="_self" class="inline-block text-white hover:text-zeus bg-black hover:bg-white hover:border hover:border-black border-dashed rounded-full px-6 py-3 mt-3 lg:mt-4 font-mono text-sm transition ease-out duration-[120ms]">
                     Read More
                 </a>
             </div>

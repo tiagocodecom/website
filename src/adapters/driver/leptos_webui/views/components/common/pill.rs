@@ -7,7 +7,7 @@ pub fn Pill(
     #[prop(optional, default = "".to_string())] link: String,
 ) -> impl IntoView {
     view! {
-        <div class="inline-block px-4 py-2 me-2 rounded-full border border-black/20 border-dashed text-mainfont hover:text-black transition ease-linear duration-100">
+        <div class="inline-block px-4 py-2 me-2 rounded-full border border-black/20 border-dashed text-zeus hover:text-black transition ease-linear duration-100">
             { if !link.is_empty() {
                 view! {
                     <a href=link target="_self">
