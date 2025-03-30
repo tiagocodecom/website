@@ -1,6 +1,7 @@
 use reqwest::{Client, Method, RequestBuilder, Response, Url};
 use secrecy::{ExposeSecret, SecretBox, SecretString};
 use serde_json::Value;
+use std::time::Duration;
 
 #[derive(Default, Clone)]
 pub struct HttpClientService {
@@ -41,7 +42,10 @@ impl HttpClientService {
     /// Sends an HTTP request with the specified method and URL.
     async fn request(&self, method: Method, url: &str) -> Result<Response, String> {
         let endpoint = self.resolve_endpoint(url)?;
-        let mut request = self.client.request(method, endpoint);
+        let mut request = self
+            .client
+            .request(method, endpoint)
+            .timeout(Duration::from_secs(5));
 
         if let Some(auth) = &self.config.basic_auth {
             request = auth.apply(request);
