@@ -39,17 +39,29 @@ FROM rustlang/rust:nightly-bullseye-slim AS runner
 
 WORKDIR /app
 
+# Install Rust OS dependencies
+RUN set -ex; \
+    apt-get update; \
+    apt-get install -y \
+        iputils-ping \
+        nano \
+        curl; \
+    apt-get autoremove -y; \
+    apt-get clean -y; \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy project builded files
 COPY --from=builder /app/target/release/website /app/
 COPY --from=builder /app/target/site /app/site
 COPY --from=builder /app/Cargo.toml /app/
 
 ENV RUST_LOG="info"
-ENV LEPTOS_SITE_ADDR="0.0.0.0:8080"
+ENV LEPTOS_SITE_ADDR="0.0.0.0:3000"
 ENV LEPTOS_SITE_ROOT=./site
 ENV LEPTOS_TAILWIND_VERSION="v3.4.16"
+ENV LEPTOS_ENV="prod"
 
-EXPOSE 8080
+EXPOSE 3000
 
 # Start the server
 CMD ["/app/website"]
