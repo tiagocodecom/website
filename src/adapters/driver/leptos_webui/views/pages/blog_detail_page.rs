@@ -1,5 +1,5 @@
 use leptos::prelude::*;
-use leptos_meta::{Meta, Script, Title};
+use leptos_meta::Script;
 use leptos_router::hooks::use_location;
 
 use crate::adapters::driver::leptos_webui::controllers::article_detail_controller;
@@ -28,8 +28,7 @@ pub fn BlogDetailPage() -> impl IntoView {
 
                         let article = data.unwrap();
                         view! {
-                            <Title text=article.title().to_string() />
-                            <Meta name="description" content=article.summary().to_string() />
+                            <MetaTags metatags=article.metatags().clone() />
                             <Script src="/assets/plugins/highlightjs/highlight.min.js" />
                             <Script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js" />
 

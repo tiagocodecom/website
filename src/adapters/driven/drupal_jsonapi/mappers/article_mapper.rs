@@ -1,14 +1,16 @@
-use crate::adapters::driven::drupal_jsonapi::entities::{
-    ArticleNode, ContentField, ImageField, TagsVocabulary,
-};
+use lazy_static::lazy_static;
+use regex::Regex;
+
+use crate::adapters::driven::drupal_jsonapi::entities::{ArticleNode, ContentField};
+use crate::adapters::driven::drupal_jsonapi::entities::{ImageField, TagsVocabulary};
+use crate::adapters::driven::drupal_jsonapi::mappers::metatags_field_mapper;
 use crate::application::domain::article::{Article, ArticleBuilder, Articles};
 use crate::application::domain::article::{Category, CategoryBuilder};
 use crate::application::domain::article_content::ArticleContent;
 use crate::application::domain::common::{Image, ImageBuilder};
 use crate::application::domain::core::{AppError, Result};
 use crate::application::value_objects::RequiredText;
-use lazy_static::lazy_static;
-use regex::Regex;
+
 
 lazy_static! {
     static ref BLOCKED_CONTENT_ATTRIBUTES: Regex =
@@ -61,6 +63,7 @@ fn article_node_mapper(node: ArticleNode) -> Result<Article> {
         .created_at(node.created_at().to_string().try_into()?)
         .category(tag_vocabulary_mapper(node.tags().clone()))
         .thumbnail(thumbnail_field_mapper(node.thumbnail()))
+        .metatags(metatags_field_mapper(node.metatags()))
         .content(content_field_mapper(node))
         .build()
         .map_err(|e| AppError::Unexpected(e.to_string()))

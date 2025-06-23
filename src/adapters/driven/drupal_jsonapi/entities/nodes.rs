@@ -17,6 +17,7 @@ pub struct ArticleNode {
     path: PathField,
     thumbnail: ImageField,
     tags: TagsVocabulary,
+    metatags: Vec<MetatagsField>,
     #[serde(deserialize_with = "deserialize_bool_from_anything")]
     status: bool,
     #[serde(rename = "created")]

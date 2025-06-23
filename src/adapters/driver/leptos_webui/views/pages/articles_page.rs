@@ -22,16 +22,19 @@ pub fn ArticlesPage() -> impl IntoView {
                     page_data
                     .get_untracked()
                     .map(|data| {
-                        match data {
-                            Err(_) => view! { <UnexpectedError /> }.into_any(),
-                            Ok((categories, articles)) => view! {
-                                <div class="justify-center space-y-6 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
-                                    <div class="w-full space-y-6 mb-12">
-                                        <ListSection articles=articles categories=categories />
-                                    </div>
-                                </div>
-                            }.into_any()
+                        if let Err(_) = data {
+                            return view! { <UnexpectedError /> }.into_any();
                         }
+
+                        let (categories, articles) = data.unwrap();
+                        
+                        view! {
+                            <div class="justify-center space-y-6 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
+                                <div class="w-full space-y-6 mb-12">
+                                    <ListSection articles=articles categories=categories />
+                                </div>
+                            </div>
+                        }.into_any()
                     })
                 }}
             </Suspense>

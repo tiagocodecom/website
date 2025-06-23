@@ -3,7 +3,7 @@ use derive_getters::Getters;
 use serde::{Deserialize, Serialize};
 
 use crate::application::domain::article_content::ArticleContent;
-use crate::application::domain::common::Image;
+use crate::application::domain::common::{Image, MetaTags};
 use crate::application::value_objects::{Date, Identifier, ModerationStatus, RequiredText, Url};
 
 pub type Articles = Vec<Article>;
@@ -19,6 +19,7 @@ pub struct Article {
     thumbnail: Image,
     content: Vec<ArticleContent>,
     category: Category,
+    metatags: MetaTags,
 }
 
 #[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
