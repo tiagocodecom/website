@@ -70,3 +70,33 @@ pub struct DocumentField {
     name: String,
     media_document: DocumentMedia,
 }
+
+#[derive(Debug, Clone, Deserialize, Serialize, Getters)]
+pub struct MetatagsField {
+    tag: MetatagTypeField,
+    attributes: MetatagAttributesField,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum MetatagTypeField {
+    Meta,
+    Link,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(untagged)]
+pub enum MetatagAttributesField {
+    Named {
+        name: String,
+        content: String,
+    },
+    Property {
+        property: String,
+        content: String,
+    },
+    Link {
+        rel: String,
+        href: String,
+    }
+}

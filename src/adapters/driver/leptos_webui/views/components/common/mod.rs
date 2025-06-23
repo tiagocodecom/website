@@ -8,6 +8,7 @@ mod missing;
 mod navbar;
 mod pill;
 mod raw_html;
+mod metatags;
 
 pub use background_animation::*;
 pub use container::*;
@@ -19,3 +20,4 @@ pub use missing::*;
 pub use navbar::*;
 pub use pill::*;
 pub use raw_html::*;
+pub use metatags::*;

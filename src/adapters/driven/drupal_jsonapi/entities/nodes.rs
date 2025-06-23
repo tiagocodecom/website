@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_aux::field_attributes::deserialize_bool_from_anything;
 
 use crate::adapters::driven::drupal_jsonapi::entities::{
-    ContentField, ImageField, PathField, TagsVocabulary,
+    ContentField, ImageField, MetatagsField, PathField, TagsVocabulary
 };
 
 #[derive(Debug, Clone, Deserialize, Serialize, Getters)]
@@ -31,6 +31,7 @@ pub struct PortfolioNode {
     title: String,
     path: PathField,
     content: Vec<ContentField>,
+    metatags: Vec<MetatagsField>,
     #[serde(deserialize_with = "deserialize_bool_from_anything")]
     status: bool,
     #[serde(rename = "created")]

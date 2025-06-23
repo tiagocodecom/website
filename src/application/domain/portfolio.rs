@@ -2,6 +2,7 @@ use derive_builder::Builder;
 use derive_getters::Getters;
 use serde::{Deserialize, Serialize};
 
+use crate::application::domain::common::MetaTags;
 use crate::application::domain::portfolio_section::PortfolioSection;
 use crate::application::value_objects::{Date, Identifier, ModerationStatus, RequiredText};
 
@@ -11,6 +12,7 @@ pub struct Portfolio {
     title: RequiredText,
     created_at: Date,
     status: ModerationStatus,
+    metatags: MetaTags,
     sections: Vec<PortfolioSection>,
 }
 

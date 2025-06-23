@@ -29,7 +29,7 @@ async fn main() -> std::io::Result<()> {
             env::var("JSONAPI_PASSWORD").expect("JSONAPI_PASSWORD is undefined");
 
         let client_config = Config::default()
-            .base_url(api_base_url.into())
+            .base_url(api_base_url.clone().into())
             .basic_auth((api_username.as_str(), api_password.as_str()))
             .build();
         let http_client = HttpClientService::new(client_config);
@@ -50,7 +50,7 @@ async fn main() -> std::io::Result<()> {
                             <head>
                                 <meta charset="utf-8"/>
                                 <link rel="preconnect" href="https://fonts.googleapis.com" />
-                                <link rel="preconnect" href="https://local-admin.tiagocode.com" />
+                                <link rel="preconnect" href=api_base_url.clone() />
                                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                                 <AutoReload options=leptos_options.clone() />
                                 <HydrationScripts options=leptos_options.clone()/>

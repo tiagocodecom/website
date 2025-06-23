@@ -5,6 +5,27 @@ use serde::{Deserialize, Serialize};
 use crate::application::value_objects::{Identifier, RequiredText, Url};
 
 #[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
+pub struct MetaTags {
+    title: RequiredText,
+    description: RequiredText,
+    keywords: RequiredText,
+    canonical_url: Url,
+    robots: RequiredText,
+    og_type: RequiredText,
+    og_site_name: RequiredText,
+    og_title: RequiredText,
+    og_description: RequiredText,
+    og_image: Url,
+    og_url: Url,
+    twitter_card: RequiredText,
+    twitter_title: RequiredText,
+    twitter_description: RequiredText,
+    twitter_image: Url,
+    twitter_site: RequiredText,
+    twitter_creator: RequiredText,
+}
+
+#[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
 pub struct Project {
     id: Identifier,
     title: RequiredText,

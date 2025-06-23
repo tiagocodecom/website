@@ -1,9 +1,9 @@
 use voca_rs::strip::strip_tags;
 
-use crate::adapters::driven::drupal_jsonapi::entities::ContentTimelineItemParagraph;
+use crate::adapters::driven::drupal_jsonapi::entities::{ContentTimelineItemParagraph, MetatagAttributesField, MetatagsField};
 use crate::adapters::driven::drupal_jsonapi::entities::{ContentField, DocumentField};
 use crate::adapters::driven::drupal_jsonapi::entities::{ImageField, PortfolioNode};
-use crate::application::domain::common::{Document, DocumentBuilder, Image, ImageBuilder};
+use crate::application::domain::common::{Document, DocumentBuilder, Image, ImageBuilder, MetaTags, MetaTagsBuilder};
 use crate::application::domain::common::{LinkBuilder, Project, ProjectBuilder};
 use crate::application::domain::common::{Timeline, TimelineBuilder};
 use crate::application::domain::common::{TimelineItem, TimelineItemBuilder};
@@ -48,13 +48,10 @@ fn portfolio_node_mapper(node: PortfolioNode) -> Result<Portfolio> {
         .status(node.status().clone().into())
         .title(node.title().to_string().try_into()?)
         .created_at(node.created_at().to_string().try_into()?)
-        .sections(content_field_mapper(node))
+        .sections(node.content().iter().map(content_elements_mapper).collect())
+        .metatags(metatags_field_mapper(node.metatags()))
         .build()
         .map_err(|e| AppError::Unexpected(e.to_string()))
-}
-
-fn content_field_mapper(data: PortfolioNode) -> Vec<PortfolioSection> {
-    data.content().iter().map(content_elements_mapper).collect()
 }
 
 fn content_elements_mapper(content: &ContentField) -> PortfolioSection {
@@ -65,6 +62,40 @@ fn content_elements_mapper(content: &ContentField) -> PortfolioSection {
         ContentField::PortfolioArticlesParagraph(_) => blog_paragraph_mapper(&content),
         _ => PortfolioSection::Unknown,
     }
+}
+
+fn metatags_field_mapper(metatags: &Vec<MetatagsField>) -> MetaTags {
+    MetaTagsBuilder::default()
+        .title(metatag_content(metatags, "title").unwrap().try_into().unwrap())
+        .description(metatag_content(metatags, "description").unwrap().try_into().unwrap())
+        .keywords(metatag_content(metatags, "keywords").unwrap().try_into().unwrap())
+        .canonical_url(metatag_content(metatags, "canonical").unwrap().try_into().unwrap())
+        .robots(metatag_content(metatags, "robots").unwrap().try_into().unwrap())
+        .og_type(metatag_content(metatags, "og:type").unwrap().try_into().unwrap())
+        .og_site_name(metatag_content(metatags, "og:site_name").unwrap().try_into().unwrap())
+        .og_title(metatag_content(metatags, "og:title").unwrap().try_into().unwrap())
+        .og_description(metatag_content(metatags, "og:description").unwrap().try_into().unwrap())
+        .og_url(metatag_content(metatags, "shortlink").unwrap().try_into().unwrap())
+        .og_image(metatag_content(metatags, "og:image:secure_url").unwrap().try_into().unwrap())
+        .twitter_card(metatag_content(metatags, "twitter:card").unwrap().try_into().unwrap())
+        .twitter_title(metatag_content(metatags, "twitter:title").unwrap().try_into().unwrap())
+        .twitter_creator(metatag_content(metatags, "twitter:site").unwrap().try_into().unwrap())
+        .twitter_description(metatag_content(metatags, "twitter:description").unwrap().try_into().unwrap())
+        .twitter_image(metatag_content(metatags, "og:image:secure_url").unwrap().try_into().unwrap())
+        .twitter_site(metatag_content(metatags, "twitter:site").unwrap().try_into().unwrap())
+        .build()
+        .unwrap()
+}
+
+fn metatag_content<'a>(metatags: &'a Vec<MetatagsField>, key: &str) -> Option<&'a str> {
+    metatags.iter().find_map(|metatag| {
+        match &metatag.attributes() {
+            MetatagAttributesField::Named { name, content } if name == key => Some(content.as_str()),
+            MetatagAttributesField::Property { property, content } if property == key => Some(content.as_str()),
+            MetatagAttributesField::Link { rel, href } if rel == key => Some(href.as_str()),
+            _ => None
+        }
+    })
 }
 
 fn blog_paragraph_mapper(p: &ContentField) -> PortfolioSection {
