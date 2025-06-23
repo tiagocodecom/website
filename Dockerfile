@@ -1,4 +1,4 @@
-FROM rustlang/rust:nightly-bullseye-slim AS builder
+FROM rustlang/rust:nightly-bookworm-slim AS builder
 
 # Install Rust OS dependencies
 RUN set -ex; \
@@ -35,7 +35,7 @@ ENV LEPTOS_TAILWIND_VERSION="v3.4.16"
 # Build the project
 RUN cargo leptos build --release -vv
 
-FROM rustlang/rust:nightly-bullseye-slim AS runner
+FROM rustlang/rust:nightly-bookworm-slim AS runner
 
 WORKDIR /app
 
