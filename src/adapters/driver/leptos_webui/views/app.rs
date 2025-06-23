@@ -19,7 +19,6 @@ pub fn App() -> impl IntoView {
             <Stylesheet href="/assets/css/custom.css"/>
             <Stylesheet href="/assets/plugins/highlightjs/default.min.css"/>
             <Stylesheet href="/assets/plugins/bootstrap-icons/bootstrap-icons.min.css"/>
-            <Title formatter=|text| format!("{text} - Tiagocode")/>
             <Routes fallback=move || "Not found.">
                 <Route ssr=SsrMode::Async path=path!("/") view=|| view! { <Redirect path="/en" /> } />
                 <Route ssr=SsrMode::Async path=path!("/en") view=PortfolioPage/>
