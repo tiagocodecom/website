@@ -1,5 +1,8 @@
 FROM rustlang/rust:nightly-bookworm-slim AS builder
 
+ARG WASM_BINDGEN_CLI_VERSION=0.2.100
+ARG CARGO_LEPTOS_VERSION=0.2.35
+
 # Install Rust OS dependencies
 RUN set -ex; \
     apt-get update; \
@@ -20,17 +23,19 @@ RUN set -ex; \
 RUN set -ex; \
     rustup target add wasm32-unknown-unknown;
 
-# Install project dependencies
 RUN set -ex; \
-    curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash; \
-    cargo binstall -y wasm-bindgen-cli; \
-    cargo binstall -y cargo-leptos;
+    curl -L --proto '=https' --tlsv1.2 -sSf \
+         https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh \
+         | bash; \
+    cargo binstall -y wasm-bindgen-cli@${WASM_BINDGEN_CLI_VERSION}; \
+    cargo binstall -y cargo-leptos@${CARGO_LEPTOS_VERSION}
 
 WORKDIR /app
 
 COPY . .
 
 ENV LEPTOS_TAILWIND_VERSION="v3.4.16"
+ENV LEPTOS_HASH_FILENAME=true
 
 # Build the project
 RUN cargo leptos build --release -vv
@@ -65,4 +70,3 @@ EXPOSE 3000
 
 # Start the server
 CMD ["/app/website"]
-
