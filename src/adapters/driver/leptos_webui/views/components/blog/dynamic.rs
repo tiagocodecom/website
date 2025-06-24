@@ -2,7 +2,7 @@ use leptos::either::EitherOf3;
 use leptos::prelude::*;
 
 use crate::adapters::driver::leptos_webui::views::components::common::*;
-use crate::application::domain::article_content::ArticleContent;
+use crate::application::domain::article::ArticleContent;
 
 #[component]
 pub fn DynamicContent(content: Vec<ArticleContent>) -> impl IntoView {

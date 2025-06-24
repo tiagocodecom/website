@@ -5,8 +5,7 @@ use crate::adapters::driven::drupal_jsonapi::entities::{ArticleNode, ContentFiel
 use crate::adapters::driven::drupal_jsonapi::entities::{ImageField, TagsVocabulary};
 use crate::adapters::driven::drupal_jsonapi::mappers::metatags_field_mapper;
 use crate::application::domain::article::{Article, ArticleBuilder, Articles};
-use crate::application::domain::article::{Category, CategoryBuilder};
-use crate::application::domain::article_content::ArticleContent;
+use crate::application::domain::article::{Category, CategoryBuilder, ArticleContent};
 use crate::application::domain::common::{Image, ImageBuilder};
 use crate::application::domain::core::{AppError, Result};
 use crate::application::value_objects::RequiredText;

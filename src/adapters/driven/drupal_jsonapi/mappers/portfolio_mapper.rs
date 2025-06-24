@@ -9,10 +9,9 @@ use crate::application::domain::common::{LinkBuilder, Project, ProjectBuilder};
 use crate::application::domain::common::{Timeline, TimelineBuilder};
 use crate::application::domain::common::{TimelineItem, TimelineItemBuilder};
 use crate::application::domain::core::{AppError, Result};
-use crate::application::domain::portfolio::{Portfolio, PortfolioBuilder};
-use crate::application::domain::portfolio_section::PortfolioSection;
-use crate::application::domain::portfolio_section::{AboutMeBuilder, BlogsBuilder};
-use crate::application::domain::portfolio_section::{ProjectsBuilder, ResumeBuilder};
+use crate::application::domain::portfolio::{Portfolio, PortfolioBuilder, PortfolioSection};
+use crate::application::domain::portfolio::{AboutMeBuilder, BlogsBuilder};
+use crate::application::domain::portfolio::{ProjectsBuilder, ResumeBuilder};
 
 /// Trait for converting external data into a `Portfolio` domain entity.
 /// Ensures separation between external data sources and core domain logic.

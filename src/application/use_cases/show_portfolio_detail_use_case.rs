@@ -1,6 +1,5 @@
 use crate::application::domain::core::{AppError, Result};
-use crate::application::domain::portfolio::Portfolio;
-use crate::application::domain::portfolio_section::{BlogsBuilder, PortfolioSection};
+use crate::application::domain::portfolio::{Portfolio, BlogsBuilder, PortfolioSection};
 use crate::application::ports::driven::{ForFetchingArticlesFeatured, ForFetchingPortfolioData};
 use crate::application::ports::driver::ForDisplayingPortfolio;
 use crate::application::value_objects::ModerationStatus;

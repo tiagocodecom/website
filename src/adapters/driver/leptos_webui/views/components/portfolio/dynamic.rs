@@ -3,7 +3,7 @@ use leptos::prelude::*;
 
 use crate::adapters::driver::leptos_webui::views::components::common::MissingSection;
 use crate::adapters::driver::leptos_webui::views::components::portfolio::*;
-use crate::application::domain::portfolio_section::PortfolioSection;
+use crate::application::domain::portfolio::PortfolioSection;
 
 #[component]
 pub fn DynamicSections(sections: Vec<PortfolioSection>) -> impl IntoView {

@@ -2,7 +2,6 @@ use derive_builder::Builder;
 use derive_getters::Getters;
 use serde::{Deserialize, Serialize};
 
-use crate::application::domain::article_content::ArticleContent;
 use crate::application::domain::common::{Image, MetaTags};
 use crate::application::value_objects::{Date, Identifier, ModerationStatus, RequiredText, Url};
 
@@ -22,6 +21,13 @@ pub struct Article {
     metatags: MetaTags,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ArticleContent {
+    Image(Image),
+    Text(RequiredText),
+    Unknown,
+}
+
 #[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
 pub struct Category {
     id: Identifier,
@@ -35,6 +41,7 @@ pub struct Category {
 pub mod tests {
     use super::*;
     use crate::application::domain::common::tests::image_fixture;
+    use crate::application::domain::common::tests::metatags_fixture;
 
     #[test]
     fn creation_succeeds_when_valid_article() {
@@ -86,6 +93,9 @@ pub mod tests {
         assert_eq!(a.thumbnail().height(), deserialized.thumbnail().height());
         assert_eq!(a.category().title(), deserialized.category().title());
         assert_eq!(a.category().emoji(), deserialized.category().emoji());
+        assert_eq!(a.metatags().title(), deserialized.metatags().title());
+        assert_eq!(a.metatags().description(), deserialized.metatags().description());
+        assert_eq!(a.metatags().keywords(), deserialized.metatags().keywords());
     }
 
     pub fn article_fixture() -> Article {
@@ -98,6 +108,7 @@ pub mod tests {
             .created_at("2024-12-15T14:03:56+00:00".try_into().unwrap())
             .category(category_fixture())
             .thumbnail(image_fixture())
+            .metatags(metatags_fixture())
             .content(vec![])
             .build()
             .unwrap()
@@ -113,6 +124,7 @@ pub mod tests {
             .created_at("2024-12-15T14:03:56+00:00".try_into().unwrap())
             .category(category_fixture())
             .thumbnail(image_fixture())
+            .metatags(metatags_fixture())
             .content(vec![])
             .build()
             .unwrap()
@@ -126,6 +138,7 @@ pub mod tests {
             .status(false.into())
             .category(category_fixture())
             .thumbnail(image_fixture())
+            .metatags(metatags_fixture())
             .content(vec![])
             .build()
             .unwrap()

@@ -5,27 +5,6 @@ use serde::{Deserialize, Serialize};
 use crate::application::value_objects::{Identifier, RequiredText, Url};
 
 #[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
-pub struct MetaTags {
-    title: RequiredText,
-    description: RequiredText,
-    keywords: RequiredText,
-    canonical_url: Url,
-    robots: RequiredText,
-    og_type: RequiredText,
-    og_site_name: RequiredText,
-    og_title: RequiredText,
-    og_description: RequiredText,
-    og_image: Url,
-    og_url: Url,
-    twitter_card: RequiredText,
-    twitter_title: RequiredText,
-    twitter_description: RequiredText,
-    twitter_image: Url,
-    twitter_site: RequiredText,
-    twitter_creator: RequiredText,
-}
-
-#[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
 pub struct Project {
     id: Identifier,
     title: RequiredText,
@@ -73,33 +52,65 @@ pub struct Link {
     options: Vec<(String, String)>,
 }
 
+#[derive(Debug, Clone, Getters, Serialize, Deserialize, Builder)]
+pub struct MetaTags {
+    title: RequiredText,
+    description: RequiredText,
+    keywords: RequiredText,
+    canonical_url: Url,
+    robots: RequiredText,
+    og_type: RequiredText,
+    og_site_name: RequiredText,
+    og_title: RequiredText,
+    og_description: RequiredText,
+    og_image: Url,
+    og_url: Url,
+    twitter_card: RequiredText,
+    twitter_title: RequiredText,
+    twitter_description: RequiredText,
+    twitter_image: Url,
+    twitter_site: RequiredText,
+    twitter_creator: RequiredText,
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
 
     #[test]
     fn creation_succeeds_when_valid_timeline() {
-        timeline_fixture(); // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        timeline_fixture(); 
     }
 
     #[test]
     fn creation_succeeds_when_valid_project() {
-        project_fixture(); // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        project_fixture(); 
     }
 
     #[test]
     fn creation_succeeds_when_valid_image() {
-        image_fixture(); // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        image_fixture(); 
     }
 
     #[test]
     fn creation_succeeds_when_valid_document() {
-        document_fixture(); // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        document_fixture(); 
     }
 
     #[test]
     fn creation_succeeds_when_valid_link() {
-        link_fixture(); // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        link_fixture(); 
+    }
+
+    #[test]
+    fn creation_succeeds_when_valid_metatags() {
+        // the fixture calls the builder methods, so we just ensure that it doesn't panic
+        metatags_fixture(); 
     }
 
     #[test]
@@ -164,6 +175,30 @@ pub mod tests {
         assert!(serialized.contains("[]"));
     }
 
+    #[test]
+    fn serialization_succeeds_when_valid_metatags() {
+        let m = metatags_fixture();
+        let serialized = serde_json::json!(&m).to_string();
+
+        assert!(serialized.contains(m.title().as_str()));
+        assert!(serialized.contains(m.description().as_str()));
+        assert!(serialized.contains(m.keywords().as_str()));
+        assert!(serialized.contains(m.canonical_url().as_str()));
+        assert!(serialized.contains(m.robots().as_str()));
+        assert!(serialized.contains(m.og_type().as_str()));
+        assert!(serialized.contains(m.og_site_name().as_str()));
+        assert!(serialized.contains(m.og_title().as_str()));
+        assert!(serialized.contains(m.og_description().as_str()));
+        assert!(serialized.contains(m.og_image().as_str()));
+        assert!(serialized.contains(m.og_url().as_str()));
+        assert!(serialized.contains(m.twitter_card().as_str()));
+        assert!(serialized.contains(m.twitter_title().as_str()));
+        assert!(serialized.contains(m.twitter_description().as_str()));
+        assert!(serialized.contains(m.twitter_image().as_str()));
+        assert!(serialized.contains(m.twitter_site().as_str()));
+        assert!(serialized.contains(m.twitter_creator().as_str()));
+    }
+
     fn link_fixture() -> Link {
         LinkBuilder::default()
             .url("https://example.com".try_into().unwrap())
@@ -220,6 +255,29 @@ pub mod tests {
             .title("Example title".try_into().unwrap())
             .subtitle("Example subtitle".try_into().unwrap())
             .text(Some("Example text".to_string()))
+            .build()
+            .unwrap()
+    }
+
+    pub fn metatags_fixture() -> MetaTags {
+        MetaTagsBuilder::default()
+            .title("Example Title".try_into().unwrap())
+            .description("Example description".try_into().unwrap())
+            .keywords("example, rust, code".try_into().unwrap())
+            .canonical_url("https://example.com".try_into().unwrap())
+            .robots("index, follow".try_into().unwrap())
+            .og_type("website".try_into().unwrap())
+            .og_site_name("Example Site".try_into().unwrap())
+            .og_title("Example Open Graph Title".try_into().unwrap())
+            .og_description("Example Open Graph Description".try_into().unwrap())
+            .og_image("https://example.com/image.png".try_into().unwrap())
+            .og_url("https://example.com/page".try_into().unwrap())
+            .twitter_card("summary_large_image".try_into().unwrap())
+            .twitter_title("Example Twitter Title".try_into().unwrap())
+            .twitter_description("Example Twitter Description".try_into().unwrap())
+            .twitter_image("https://example.com/twitter-image.png".try_into().unwrap())
+            .twitter_site("@example".try_into().unwrap())
+            .twitter_creator("@creator".try_into().unwrap())
             .build()
             .unwrap()
     }

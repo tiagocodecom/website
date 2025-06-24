@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use leptos_meta::Stylesheet;
-use leptos_meta::{provide_meta_context, Title};
+use leptos_meta::provide_meta_context;
 use leptos_router::components::{Redirect, Route, Router, Routes};
 use leptos_router::{path, SsrMode, WildcardSegment};
 
