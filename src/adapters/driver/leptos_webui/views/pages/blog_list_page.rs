@@ -1,5 +1,5 @@
 use leptos::prelude::*;
-use leptos_router::hooks::use_params_map;
+use leptos_router::hooks::use_location;
 
 use crate::adapters::driver::leptos_webui::controllers::articles_list_controller;
 use crate::adapters::driver::leptos_webui::views::components::blog::ListSection;
@@ -7,12 +7,11 @@ use crate::adapters::driver::leptos_webui::views::components::common::*;
 use crate::adapters::driver::leptos_webui::views::layouts::BasicLayout;
 
 #[component]
-pub fn ArticlesPage() -> impl IntoView {
-    let params = use_params_map();
-
+pub fn BlogListPage() -> impl IntoView {
+    let route = use_location();
     let page_data = Resource::new(
-        move || params.read().get("category"),
-        |category| articles_list_controller(category),
+        move || route.pathname.read().to_string(),
+        |slug| articles_list_controller(slug),
     );
 
     view! {
@@ -26,9 +25,10 @@ pub fn ArticlesPage() -> impl IntoView {
                             return view! { <UnexpectedError /> }.into_any();
                         }
 
-                        let (categories, articles) = data.unwrap();
+                        let (page, categories, articles) = data.unwrap();
                         
                         view! {
+                            <MetaTags metatags=page.metatags().clone() />
                             <div class="justify-center space-y-6 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
                                 <div class="w-full space-y-6 mb-12">
                                     <ListSection articles=articles categories=categories />

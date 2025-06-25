@@ -1,5 +1,6 @@
 use async_trait::async_trait;
 
+use crate::application::domain::page::Page;
 use crate::application::domain::article::{Article, Category};
 use crate::application::domain::core::Result;
 
@@ -22,5 +23,5 @@ pub trait ForDisplayingArticlesList {
     ///
     /// # Errors
     /// Returns an error if the articles or categories could not be retrieved.
-    async fn execute(&self, category_id: Option<String>) -> Result<(Vec<Category>, Vec<Article>)>;
+    async fn execute(&self, slug: &str, category_id: Option<String>) -> Result<(Page, Vec<Category>, Vec<Article>)>;
 }

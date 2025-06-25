@@ -1,17 +1,19 @@
 use leptos::prelude::ServerFnError;
 use leptos::prelude::*;
 
+use crate::application::domain::page::Page;
 use crate::application::domain::article::{Article, Category};
 
 #[server]
 pub async fn articles_list_controller(
-    category: Option<String>,
-) -> Result<(Vec<Category>, Vec<Article>), ServerFnError> {
+    slug: String,
+) -> Result<(Page, Vec<Category>, Vec<Article>), ServerFnError> {
     use actix_web::web::Data;
     use leptos::logging::error;
     use leptos_actix::extract;
 
     use crate::adapters::driven::drupal_jsonapi::repositories::ArticleRepository;
+    use crate::adapters::driven::drupal_jsonapi::repositories::PageRepository;
     use crate::adapters::driven::drupal_jsonapi::repositories::CategoryRepository;
     use crate::adapters::driven::drupal_jsonapi::services::HttpClientService;
     use crate::application::domain::core::AppError;
@@ -20,16 +22,23 @@ pub async fn articles_list_controller(
 
     let http_client: Data<HttpClientService> = extract().await?;
 
+    let page_repository = PageRepository::new(http_client.get_ref().clone());
     let article_repository = ArticleRepository::new(http_client.get_ref().clone());
     let category_repository = CategoryRepository::new(http_client.get_ref().clone());
-
+    
     let use_case =
-        ShowArticlesListUseCase::new(Box::new(article_repository), Box::new(category_repository));
-
-    let result = use_case.execute(category).await.map_err(|e| {
+        ShowArticlesListUseCase::new(
+            Box::new(article_repository), 
+            Box::new(category_repository),
+            Box::new(page_repository)
+        );
+        
+    let category = slug.clone().split("/").nth(3).map(|s| s.to_owned());
+    let result = use_case.execute("/en/articles", category).await.map_err(|e| {
         error!("{}", e.to_string());
         ServerFnError::<AppError>::ServerError(e.to_string())
     })?;
+
 
     Ok(result)
 }

@@ -73,7 +73,7 @@ impl ForFetchingArticlesList for ArticleRepository {
         let mut endpoint = format!("/jsonapi/node/article?{COLLECTION_QUERY}&page[limit]=10");
 
         if let Some(category) = category_id {
-            endpoint.push_str(&format!("&filter[tags][condition][path]=tags.name&filter[tags][condition][value]={category}"));
+            endpoint.push_str(&format!("&filter[tags][condition][path]=tags.machine_name&filter[tags][condition][value]={category}"));
         }
 
         let articles = self

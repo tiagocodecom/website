@@ -3,6 +3,7 @@ use leptos::prelude::*;
 #[component]
 pub fn Pill(
     text: String,
+    #[prop(default = "")] class: &'static str,
     #[prop(optional)] emoji: String,
     #[prop(optional, default = String::new())] link: String,
 ) -> impl IntoView {
@@ -14,7 +15,7 @@ pub fn Pill(
     };
 
     view! {
-        <div class="inline-block px-4 py-2 me-2 rounded-full border border-black/20 border-dashed text-zeus hover:bg-sheengold/70 transition ease-linear duration-100">
+        <div class=format!("inline-block px-4 py-2 me-2 rounded-full border border-black/20 border-dashed text-zeus hover:bg-sheengold/70 transition ease-linear duration-100 {class}")>
             {if link.is_empty() {
                 content.into_any()
             } else {

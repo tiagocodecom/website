@@ -5,7 +5,7 @@ use leptos_router::components::{Redirect, Route, Router, Routes};
 use leptos_router::{path, SsrMode, WildcardSegment};
 
 use crate::adapters::driver::leptos_webui::views::pages::{
-    ArticlesPage, BlogDetailPage, NotFoundPage, PortfolioPage,
+    BlogListPage, BlogDetailPage, NotFoundPage, PortfolioPage,
 };
 
 #[component]
@@ -23,8 +23,8 @@ pub fn App() -> impl IntoView {
                 <Route ssr=SsrMode::Async path=path!("/") view=|| view! { <Redirect path="/en" /> } />
                 <Route ssr=SsrMode::Async path=path!("/en") view=PortfolioPage/>
                 <Route ssr=SsrMode::Async path=path!("/es") view=PortfolioPage/>
-                <Route ssr=SsrMode::Async path=path!("/:lang/articles") view=ArticlesPage/>
-                <Route ssr=SsrMode::Async path=path!("/:lang/articles/:category") view=ArticlesPage/>
+                <Route ssr=SsrMode::Async path=path!("/:lang/articles") view=BlogListPage/>
+                <Route ssr=SsrMode::Async path=path!("/:lang/articles/:category") view=BlogListPage/>
                 <Route ssr=SsrMode::Async path=path!("/:lang/articles/:category/:slug") view=BlogDetailPage/>
                 <Route ssr=SsrMode::Async path=WildcardSegment("any") view=NotFoundPage/>
             </Routes>

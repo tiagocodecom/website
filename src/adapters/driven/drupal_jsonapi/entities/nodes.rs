@@ -38,3 +38,18 @@ pub struct PortfolioNode {
     #[serde(rename = "created")]
     created_at: String,
 }
+
+#[derive(Debug, Clone, Deserialize, Serialize, Getters)]
+pub struct PageNode {
+    id: String,
+    #[serde(rename = "type")]
+    entity_type: String,
+    title: String,
+    body: String,
+    path: PathField,
+    metatags: Vec<MetatagsField>,
+    #[serde(deserialize_with = "deserialize_bool_from_anything")]
+    status: bool,
+    #[serde(rename = "created")]
+    created_at: String,
+}
