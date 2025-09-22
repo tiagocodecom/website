@@ -86,7 +86,7 @@ html {
     list-style-type: disc;
 }
 
-.article-detail pre, .article-detail img {
+.article-detail pre {
 
     margin: 1rem auto;
 }

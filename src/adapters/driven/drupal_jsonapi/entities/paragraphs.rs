@@ -81,3 +81,9 @@ pub struct ContentMediaParagraph {
     id: String,
     media: ImageField,
 }
+
+#[derive(Debug, Clone, Deserialize, Serialize, Getters)]
+pub struct ContentSliderParagraph {
+    id: String,
+    media_list: Vec<ImageField>,
+}

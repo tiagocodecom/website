@@ -13,14 +13,14 @@ use crate::application::ports::driven::{ForFetchingArticleData, ForFetchingArtic
 use crate::utilities::HttpClient;
 
 const COLLECTION_QUERY: &str = "\
-    include=tags,content.media.media_image,thumbnail.media_image\
+    include=tags,content.media.media_image,thumbnail.media_image,content.media_list.media_image\
     &filter[status]=1&sort=created,title\
     &page[limit]=2\
     &sort[sort-created][path]=created&sort[sort-created][direction]=desc\
     &jsonapi_include=1";
 
 const RESOURCE_QUERY: &str = "\
-    include=tags,content.media.media_image,thumbnail.media_image\
+    include=tags,content.media.media_image,thumbnail.media_image,content.media_list.media_image\
     &jsonapi_include=1";
 
 /// Repository for fetching and transforming article data from an external CMS API.

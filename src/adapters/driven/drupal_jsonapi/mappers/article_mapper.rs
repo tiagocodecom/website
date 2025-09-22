@@ -5,11 +5,10 @@ use crate::adapters::driven::drupal_jsonapi::entities::{ArticleNode, ContentFiel
 use crate::adapters::driven::drupal_jsonapi::entities::{ImageField, TagsVocabulary};
 use crate::adapters::driven::drupal_jsonapi::mappers::metatags_field_mapper;
 use crate::application::domain::article::{Article, ArticleBuilder, Articles};
-use crate::application::domain::article::{Category, CategoryBuilder, ArticleContent};
+use crate::application::domain::article::{ArticleContent, Category, CategoryBuilder};
 use crate::application::domain::common::{Image, ImageBuilder};
 use crate::application::domain::core::{AppError, Result};
 use crate::application::value_objects::RequiredText;
-
 
 lazy_static! {
     static ref BLOCKED_CONTENT_ATTRIBUTES: Regex =
@@ -76,6 +75,7 @@ fn content_elements_mapper(content: &ContentField) -> ArticleContent {
     match content {
         ContentField::ContentMediaParagraph(_) => media_paragraph_adapter(&content),
         ContentField::ContentTextParagraph(_) => text_paragraph_mapper(&content),
+        ContentField::ContentSlider(_) => slider_paragraph_adapter(&content),
         _ => ArticleContent::Unknown,
     }
 }
@@ -84,6 +84,17 @@ fn media_paragraph_adapter(p: &ContentField) -> ArticleContent {
     if let ContentField::ContentMediaParagraph(p) = p {
         return ArticleContent::Image(image_field_mapper(p.media()));
     }
+    ArticleContent::Unknown
+}
+
+fn slider_paragraph_adapter(p: &ContentField) -> ArticleContent {
+    if let ContentField::ContentSlider(p) = p {
+        return ArticleContent::Slider(
+            p.media_list().iter().map(thumbnail_field_mapper).collect(),
+            p.media_list().iter().map(image_field_mapper).collect(),
+        );
+    }
+
     ArticleContent::Unknown
 }
 

@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_aux::field_attributes::deserialize_number_from_string;
 
 use crate::adapters::driven::drupal_jsonapi::entities::{
-    ContentHoverCardParagraph, ContentMediaParagraph, ContentTextParagraph,
+    ContentHoverCardParagraph, ContentMediaParagraph, ContentSliderParagraph, ContentTextParagraph,
     ContentTimelineParagraph, DocumentMedia, ImageMedia, PortfolioAboutMeParagraph,
     PortfolioArticlesParagraph, PortfolioProjectsParagraph, PortfolioResumeParagraph,
 };
@@ -19,6 +19,8 @@ pub enum ContentField {
     ContentTextParagraph(ContentTextParagraph),
     #[serde(rename = "paragraph--content_media")]
     ContentMediaParagraph(ContentMediaParagraph),
+    #[serde(rename = "paragraph--content_slider")]
+    ContentSlider(ContentSliderParagraph),
     #[serde(rename = "paragraph--portfolio_about_me")]
     PortfolioAboutMeParagraph(PortfolioAboutMeParagraph),
     #[serde(rename = "paragraph--portfolio_resume")]
@@ -87,16 +89,7 @@ pub enum MetatagTypeField {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(untagged)]
 pub enum MetatagAttributesField {
-    Named {
-        name: String,
-        content: String,
-    },
-    Property {
-        property: String,
-        content: String,
-    },
-    Link {
-        rel: String,
-        href: String,
-    }
+    Named { name: String, content: String },
+    Property { property: String, content: String },
+    Link { rel: String, href: String },
 }

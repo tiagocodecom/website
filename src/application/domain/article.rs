@@ -24,6 +24,7 @@ pub struct Article {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ArticleContent {
     Image(Image),
+    Slider(Vec<Image>, Vec<Image>),
     Text(RequiredText),
     Unknown,
 }
@@ -94,7 +95,10 @@ pub mod tests {
         assert_eq!(a.category().title(), deserialized.category().title());
         assert_eq!(a.category().emoji(), deserialized.category().emoji());
         assert_eq!(a.metatags().title(), deserialized.metatags().title());
-        assert_eq!(a.metatags().description(), deserialized.metatags().description());
+        assert_eq!(
+            a.metatags().description(),
+            deserialized.metatags().description()
+        );
         assert_eq!(a.metatags().keywords(), deserialized.metatags().keywords());
     }
 
