@@ -25,8 +25,12 @@ html {
     margin: 2.75em 0;
 }
 
-.article-detail blockquote p {
+.article-detail a, p, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 
+.article-detail blockquote p {
     font-size: 28px;
     font-weight: 300;
     line-height: 40px;
