@@ -11,8 +11,8 @@ async fn main() -> std::io::Result<()> {
     use leptos_meta::MetaTags;
     use std::env;
 
-    use website::adapters::driven::drupal_jsonapi::services::{Config, HttpClientService};
     use website::adapters::driver::leptos_webui::views::app::*;
+    use website::utilities::HttpClient;
 
     dotenv().ok();
 
@@ -27,12 +27,22 @@ async fn main() -> std::io::Result<()> {
         let api_username = env::var("JSONAPI_USERNAME").expect("JSONAPI_USERNAME is undefined");
         let api_password =
             env::var("JSONAPI_PASSWORD").expect("JSONAPI_PASSWORD is undefined");
+        let redis_host = env::var("REDIS_HOST").expect("REDIS_HOST is undefined");
+        let redis_port = env::var("REDIS_PORT").expect("REDIS_PORT is undefined");
+        let redis_password =
+            env::var("REDIS_PASSWORD").expect("REDIS_PASSWORD is undefined");
 
-        let client_config = Config::default()
-            .base_url(api_base_url.clone().into())
-            .basic_auth((api_username.as_str(), api_password.as_str()))
-            .build();
-        let http_client = HttpClientService::new(client_config);
+        let redis_url = format!(
+            "redis://root:{}@{}:{}",
+            redis_password, redis_host, redis_port
+        );
+
+        // let cache_client = CacheClient::default()
+        //     .connection_url(redis_url.as_str());
+
+        let http_client = HttpClient::default()
+            .base_url(api_base_url.as_str())
+            .basic_auth(api_username.as_str(), api_password.as_str());
 
         println!("listening on http://{}", &addr);
 
@@ -63,12 +73,13 @@ async fn main() -> std::io::Result<()> {
                     }
                 }
             })
+            // .app_data(web::Data::new(cache_client.to_owned()))
             .app_data(web::Data::new(http_client.to_owned()))
             .app_data(web::Data::new(leptos_options.to_owned()))
     })
-    .bind(&addr)?
-    .run()
-    .await
+        .bind(&addr)?
+        .run()
+        .await
 }
 
 #[cfg(feature = "ssr")]

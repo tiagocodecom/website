@@ -2,14 +2,14 @@ use serde::de::DeserializeOwned;
 use serde_json::from_value;
 
 use crate::adapters::driven::drupal_jsonapi::entities::ResolvedRoute;
-use crate::adapters::driven::drupal_jsonapi::services::HttpClientService;
+use crate::utilities::HttpClient;
 
 pub struct JsonApiClientService {
-    http_client: HttpClientService,
+    http_client: HttpClient,
 }
 
 impl JsonApiClientService {
-    pub fn new(http_client: HttpClientService) -> Self {
+    pub fn new(http_client: HttpClient) -> Self {
         Self { http_client }
     }
 
@@ -17,7 +17,8 @@ impl JsonApiClientService {
         let json = self
             .http_client
             .get_json(&format!("/router/translate-path?path={path}"))
-            .await?;
+            .await
+            .unwrap();
 
         let external_route =
             from_value::<ResolvedRoute>(json.clone()).map_err(|e| e.to_string())?;
@@ -35,7 +36,7 @@ impl JsonApiClientService {
     where
         T: DeserializeOwned,
     {
-        let json = self.http_client.get_json(endpoint).await?;
+        let json = self.http_client.get_json(endpoint).await.unwrap();
 
         serde_json_path_to_error::from_value::<T>(json.clone())
             .map_err(|e| format!(r#"{}\n{}\n{}\n"#, e.to_string(), endpoint, json))

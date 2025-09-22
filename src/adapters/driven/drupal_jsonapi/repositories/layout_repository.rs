@@ -3,10 +3,11 @@ use std::any::type_name;
 
 use crate::adapters::driven::drupal_jsonapi::entities::Navigation;
 use crate::adapters::driven::drupal_jsonapi::mappers::{ExternalMenuTreeMapper, NavigationAdapter};
-use crate::adapters::driven::drupal_jsonapi::services::{HttpClientService, JsonApiClientService};
+use crate::adapters::driven::drupal_jsonapi::services::JsonApiClientService;
 use crate::application::domain::core::{AppError, Result};
 use crate::application::domain::layout::MenuTree;
 use crate::application::ports::driven::ForFetchingMenuData;
+use crate::utilities::HttpClient;
 
 /// Repository for fetching and transforming menu data from an external CMS API.
 ///
@@ -18,7 +19,7 @@ pub struct LayoutRepository {
 }
 
 impl LayoutRepository {
-    pub fn new(http_client: HttpClientService) -> Self {
+    pub fn new(http_client: HttpClient) -> Self {
         Self {
             api_client: Box::new(JsonApiClientService::new(http_client)),
             api_mapper: Box::new(NavigationAdapter::default()),

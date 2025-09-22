@@ -4,10 +4,11 @@ use std::any::type_name;
 use crate::adapters::driven::drupal_jsonapi::entities::{NodePortfolioResource, PortfolioNode};
 use crate::adapters::driven::drupal_jsonapi::mappers::ExternalPortfolioAdapter;
 use crate::adapters::driven::drupal_jsonapi::mappers::PortfolioNodeMapper;
-use crate::adapters::driven::drupal_jsonapi::services::{HttpClientService, JsonApiClientService};
+use crate::adapters::driven::drupal_jsonapi::services::JsonApiClientService;
 use crate::application::domain::core::{AppError, Result};
 use crate::application::domain::portfolio::Portfolio;
 use crate::application::ports::driven::ForFetchingPortfolioData;
+use crate::utilities::HttpClient;
 
 const RESOURCE_QUERY: &str = "\
     include=content,content.document.media_document,content.image.media_image,content.items.media.media_image,content.items.items\
@@ -23,7 +24,7 @@ pub struct PortfolioRepository {
 }
 
 impl PortfolioRepository {
-    pub fn new(http_client: HttpClientService) -> Self {
+    pub fn new(http_client: HttpClient) -> Self {
         Self {
             api_client: Box::new(JsonApiClientService::new(http_client)),
             api_adapter: Box::new(PortfolioNodeMapper::default()),

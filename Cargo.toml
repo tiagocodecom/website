@@ -22,6 +22,7 @@ leptos = { version = "0.8.2", features = ["nightly"] }
 leptos_meta = { version = "0.8.2" }
 leptos_actix = { version = "0.8.2", optional = true }
 leptos_router = { version = "0.8.2", features = ["nightly"] }
+redis = { version = "0.32.2", features = ["tokio-comp"], optional = true }
 regex = { version = "1.11.1" }
 reqwest = { version = "0.12.12", features = ["json"] }
 secrecy = { version = "0.10.3" }
@@ -49,6 +50,7 @@ ssr = [
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
+    "redis",
 ]
 nightly = []
 
@@ -101,17 +103,17 @@ bin-features = ["ssr"]
 # Optional. Defaults to false.
 bin-default-features = false
 
-# The features to use when compiling the lib target
+# The features to use when compiling the services target
 #
-# Optional. Can be over-ridden with the command line parameter --lib-features
+# Optional. Can be over-ridden with the command line parameter --services-features
 lib-features = ["hydrate"]
 
-# If the --no-default-features flag should be used when compiling the lib target
+# If the --no-default-features flag should be used when compiling the services target
 #
 # Optional. Defaults to false.
 lib-default-features = false
 
-# The profile to use for the lib target when compiling for release
+# The profile to use for the services target when compiling for release
 #
 # Optional. Defaults to "release".
 lib-profile-release = "wasm-release"

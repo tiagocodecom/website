@@ -17,6 +17,9 @@ pub enum AppError {
 
     #[error("The value `{0}` is not valid for `{1}`")]
     InvalidValue(&'static str, String),
+
+    #[error("")]
+    ApiFailure(String),
 }
 
 pub type Result<T> = core::result::Result<T, AppError>;

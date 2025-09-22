@@ -4,10 +4,11 @@ use std::any::type_name;
 use crate::adapters::driven::drupal_jsonapi::entities::{TagsVocabulary, VocabularyTagCollection};
 use crate::adapters::driven::drupal_jsonapi::mappers::ExternalCategoryMapper;
 use crate::adapters::driven::drupal_jsonapi::mappers::ExternalTagsVocabularyMapper;
-use crate::adapters::driven::drupal_jsonapi::services::{HttpClientService, JsonApiClientService};
+use crate::adapters::driven::drupal_jsonapi::services::JsonApiClientService;
 use crate::application::domain::article::Category;
 use crate::application::domain::core::AppError;
 use crate::application::ports::driven::ForFetchingCategoriesList;
+use crate::utilities::HttpClient;
 
 const COLLECTION_QUERY: &str = "\
     &filter[status]=1\
@@ -26,7 +27,7 @@ pub struct CategoryRepository {
 }
 
 impl CategoryRepository {
-    pub fn new(http_client: HttpClientService) -> Self {
+    pub fn new(http_client: HttpClient) -> Self {
         Self {
             api_client: Box::new(JsonApiClientService::new(http_client)),
             api_adapter: Box::new(ExternalTagsVocabularyMapper::default()),

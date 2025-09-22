@@ -1,12 +1,13 @@
 use async_trait::async_trait;
 use std::any::type_name;
 
-use crate::adapters::driven::drupal_jsonapi::entities::{NodePageResource,  PageNode};
+use crate::adapters::driven::drupal_jsonapi::entities::{NodePageResource, PageNode};
 use crate::adapters::driven::drupal_jsonapi::mappers::{ExternalPageAdapter, PageNodeMapper};
-use crate::adapters::driven::drupal_jsonapi::services::{HttpClientService, JsonApiClientService};
+use crate::adapters::driven::drupal_jsonapi::services::JsonApiClientService;
 use crate::application::domain::core::{AppError, Result};
 use crate::application::domain::page::Page;
-use crate::application::ports::driven::{ForFetchingPageData};
+use crate::application::ports::driven::ForFetchingPageData;
+use crate::utilities::HttpClient;
 
 const RESOURCE_QUERY: &str = "jsonapi_include=1";
 
@@ -20,7 +21,7 @@ pub struct PageRepository {
 }
 
 impl PageRepository {
-    pub fn new(http_client: HttpClientService) -> Self {
+    pub fn new(http_client: HttpClient) -> Self {
         Self {
             api_client: Box::new(JsonApiClientService::new(http_client)),
             api_adapter: Box::new(PageNodeMapper::default()),

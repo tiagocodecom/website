@@ -1,17 +1,16 @@
 use async_trait::async_trait;
 use std::any::type_name;
 
-use crate::adapters::driven::drupal_jsonapi::entities::{
-    ArticleNode, NodeArticleCollection, NodeArticleResource,
-};
+use crate::adapters::driven::drupal_jsonapi::entities::NodeArticleResource;
+use crate::adapters::driven::drupal_jsonapi::entities::{ArticleNode, NodeArticleCollection};
 use crate::adapters::driven::drupal_jsonapi::mappers::ArticleNodeMapper;
 use crate::adapters::driven::drupal_jsonapi::mappers::ExternalArticleMapper;
-use crate::adapters::driven::drupal_jsonapi::services::{HttpClientService, JsonApiClientService};
+use crate::adapters::driven::drupal_jsonapi::services::JsonApiClientService;
 use crate::application::domain::article::{Article, Articles};
 use crate::application::domain::core::{AppError, Result};
-use crate::application::ports::driven::{
-    ForFetchingArticleData, ForFetchingArticlesFeatured, ForFetchingArticlesList,
-};
+use crate::application::ports::driven::ForFetchingArticlesFeatured;
+use crate::application::ports::driven::{ForFetchingArticleData, ForFetchingArticlesList};
+use crate::utilities::HttpClient;
 
 const COLLECTION_QUERY: &str = "\
     include=tags,content.media.media_image,thumbnail.media_image\
@@ -38,7 +37,7 @@ pub struct ArticleRepository {
 }
 
 impl ArticleRepository {
-    pub fn new(http_client: HttpClientService) -> Self {
+    pub fn new(http_client: HttpClient) -> Self {
         Self {
             api_client: Box::new(JsonApiClientService::new(http_client)),
             api_adapter: Box::new(ArticleNodeMapper::default()),
@@ -112,6 +111,4 @@ impl ForFetchingArticleData for ArticleRepository {
 }
 
 #[cfg(test)]
-pub mod tests {
-    
-}
+pub mod tests {}
