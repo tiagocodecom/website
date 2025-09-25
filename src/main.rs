@@ -49,6 +49,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(Compress::default())
             .service(favicon)
+            .service(health)
             .service(Files::new("/assets", &site_root))
             .service(Files::new("/pkg", format!("{site_root}/pkg")))
             .leptos_routes(routes, {
@@ -80,6 +81,26 @@ async fn main() -> std::io::Result<()> {
         .bind(&addr)?
         .run()
         .await
+}
+
+#[cfg(feature = "ssr")]
+#[actix_web::get("/health")]
+async fn health() -> actix_web::HttpResponse {
+    let api_url = std::env::var("JSONAPI_BASE_URL").unwrap();
+
+    if reqwest::get(api_url).await.unwrap().status().is_success() {
+        return actix_web::HttpResponse::Ok()
+            .content_type(actix_web::http::header::ContentType::plaintext())
+            .body(
+                std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .unwrap()
+                    .as_secs()
+                    .to_string(),
+            );
+    }
+
+    actix_web::HttpResponse::InternalServerError().finish()
 }
 
 #[cfg(feature = "ssr")]
